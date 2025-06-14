@@ -17,9 +17,13 @@ class ChildService(private val childRepository: ChildRepository) {
     fun getChildrenByParentId(parentId: Long): List<Child> =
         childRepository.findAllByParent_ParentId(parentId)
 
+    fun getChildByUsername(username: String): Child? =
+        childRepository.findByUsername(username)
+
     fun createChildForParent(child: Child, parent: Parent): Child {
-        return childRepository.save(
-            child.copy(parent = parent)
-        )
+        val existing = childRepository.findByUsername(child.username)
+        if (existing != null) throw IllegalArgumentException("Username already taken")
+
+        return childRepository.save(child.copy(parent = parent))
     }
 }
