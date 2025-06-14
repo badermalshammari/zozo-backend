@@ -6,6 +6,7 @@ import com.zozo.app.service.ParentService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
@@ -13,7 +14,8 @@ import java.time.LocalDate
 @RequestMapping("/api/children")
 class ChildController(
     private val childService: ChildService,
-    private val parentService: ParentService
+    private val parentService: ParentService,
+    private val passwordEncoder: PasswordEncoder
 ) {
 
     @GetMapping
@@ -42,12 +44,14 @@ class ChildController(
         val parent = parentService.getParentByUsername(parentUsername)
             ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
 
+        val hashedPassword = passwordEncoder.encode(childRequest.password)
+
         val child = Child(
             name = childRequest.name,
             civilId = childRequest.civilId,
             birthday = childRequest.birthday,
             username = childRequest.username,
-            password = childRequest.password,
+            password = hashedPassword,
             gender = childRequest.gender,
             avatar = childRequest.avatar,
             parent = parent
