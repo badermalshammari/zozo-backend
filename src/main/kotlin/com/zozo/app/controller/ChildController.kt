@@ -1,7 +1,9 @@
 package com.zozo.app.controller
 
+import com.zozo.app.model.AccountStats
 import com.zozo.app.model.Child
 import com.zozo.app.model.GenderType
+import com.zozo.app.model.Parent
 import com.zozo.app.service.ChildService
 import com.zozo.app.service.ParentService
 import org.springframework.http.HttpStatus
@@ -61,7 +63,42 @@ class ChildController(
         val savedChild = childService.createChildForParent(child, parent)
         return ResponseEntity.status(HttpStatus.CREATED).body(savedChild)
     }
+    @PostMapping("/{id}/enable")
+    fun enableChildAccount(@PathVariable id: Long): ResponseEntity<Child> {
+        return try {
+            val updatedChild = childService.changeChildStats(id, AccountStats.ENABLED)
+            ResponseEntity.ok(updatedChild)
+        } catch (e: IllegalArgumentException) {
+            ResponseEntity.notFound().build()
+        }
+    }
+    @PostMapping("/{id}/disable")
+    fun disableChildAccount(@PathVariable id: Long): ResponseEntity<Child> {
+        return try {
+            val updatedChild = childService.changeChildStats(id, AccountStats.DISABLED)
+            ResponseEntity.ok(updatedChild)
+        } catch (e: IllegalArgumentException) {
+            ResponseEntity.notFound().build()
+        }
+    }
+
+    @PostMapping("/{id}/avatar")
+    fun updateAvatar(
+        @PathVariable id: Long,
+        @RequestBody request: AvatarRequest
+    ): ResponseEntity<Child> {
+        return try {
+            val child = childService.getChildById(id) ?: return ResponseEntity.notFound().build()
+            val updatedChild = child.copy(avatar = request.avatar)
+            val saved = childService.updateChild(updatedChild)
+            ResponseEntity.ok(saved)
+        } catch (e: Exception) {
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
+        }
+    }
 }
+
+data class AvatarRequest(val avatar: String)
 
 data class ChildRequest(
     val name: String,
@@ -70,5 +107,5 @@ data class ChildRequest(
     val username: String,
     val password: String,
     val gender: GenderType,
-    val avatar: String
+    val avatar: String,
 )

@@ -16,9 +16,16 @@ data class Child(
     val username: String,
     val password: String,
     val gender: GenderType,
-    val avatar: String = if (gender == GenderType.ZAINAH) "zainah.png" else "default.png",
+    val avatar: String = if (gender == GenderType.ZAINAH) "zainah.png" else "zain.png",
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
-    val parent: Parent
+    val parent: Parent,
+
+    @Enumerated(EnumType.STRING)
+    val stats: AccountStats = AccountStats.ENABLED
 )
+
+enum class AccountStats {
+    ENABLED, DISABLED
+}

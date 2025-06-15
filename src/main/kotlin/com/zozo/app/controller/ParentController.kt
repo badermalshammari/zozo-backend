@@ -6,25 +6,25 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/parents")
+@RequestMapping("/api")
 class ParentController(private val parentService: ParentService) {
 
-    @GetMapping
+    @GetMapping("parents/getAll")
     fun getAllParents(): ResponseEntity<List<Parent>> =
         ResponseEntity.ok(parentService.getAllParents())
 
-    @GetMapping("/{id}")
+    @GetMapping("parents/{id}")
     fun getParentById(@PathVariable id: Long): ResponseEntity<Parent> {
         val parent = parentService.getParentById(id)
         return if (parent != null) ResponseEntity.ok(parent)
         else ResponseEntity.notFound().build()
     }
 
-    @PostMapping
+    @PostMapping("auth/register")
     fun createParent(@RequestBody parent: Parent): ResponseEntity<Parent> =
         ResponseEntity.ok(parentService.createParent(parent))
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("parents/{id}")
     fun deleteParent(@PathVariable id: Long): ResponseEntity<Void> {
         parentService.deleteParent(id)
         return ResponseEntity.noContent().build()
