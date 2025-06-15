@@ -2,18 +2,29 @@ package com.zozo.app.service
 
 import com.zozo.app.model.Parent
 import com.zozo.app.repository.ParentRepository
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
-class ParentService(private val parentRepository: ParentRepository) {
+class ParentService(
+    private val parentRepo: ParentRepository,
+    private val passwordEncoder: PasswordEncoder
+) {
 
-    fun getAllParents(): List<Parent> = parentRepository.findAll()
+    fun createParent(name: String, username: String, password: String, phoneNumber: String): Parent {
+        if (parentRepo.findByUsername(username) != null) {
+            throw IllegalArgumentException("Username already exists")
+        }
 
-    fun getParentById(id: Long): Parent? = parentRepository.findById(id).orElse(null)
+        val encodedPassword = passwordEncoder.encode(password)
 
-    fun getParentByUsername(username: String): Parent? = parentRepository.findByUsername(username)
+        val parent = Parent(
+            name = name,
+            username = username,
+            password = encodedPassword,
+            phoneNumber = phoneNumber
+        )
 
-    fun createParent(parent: Parent): Parent = parentRepository.save(parent)
-
-    fun deleteParent(id: Long) = parentRepository.deleteById(id)
+        return parentRepo.save(parent)
+    }
 }
