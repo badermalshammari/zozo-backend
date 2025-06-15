@@ -4,25 +4,22 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
 import org.springframework.stereotype.Service
-import java.security.Key
 import java.util.*
+import javax.crypto.SecretKey
 
 @Service
 class JwtService {
+    private val secretKey: SecretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256)
 
-    private val secretKey: Key = Keys.secretKeyFor(SignatureAlgorithm.HS256)
-
-    private val expirationMs: Long = 1000 * 60 * 60 * 24 // 24 hours
-
-    fun generateToken(extraClaims: Map<String, Any>, username: String): String {
+    fun generateToken(username: String, role: String): String {
         val now = Date()
-        val expiryDate = Date(now.time + expirationMs)
+        val expiry = Date(now.time + 1000 * 60 * 60 * 24) // 24 hours
 
         return Jwts.builder()
-            .setClaims(extraClaims)
             .setSubject(username)
+            .claim("role", role)
             .setIssuedAt(now)
-            .setExpiration(expiryDate)
+            .setExpiration(expiry)
             .signWith(secretKey)
             .compact()
     }
@@ -35,19 +32,12 @@ class JwtService {
             .body
             .subject
     }
-
-    fun isTokenValid(token: String, username: String): Boolean {
-        val extractedUsername = extractUsername(token)
-        return (extractedUsername == username) && !isTokenExpired(token)
-    }
-
-    fun isTokenExpired(token: String): Boolean {
-        val expiration = Jwts.parserBuilder()
+    fun extractRole(token: String): String {
+        return Jwts.parserBuilder()
             .setSigningKey(secretKey)
             .build()
             .parseClaimsJws(token)
             .body
-            .expiration
-        return expiration.before(Date())
+            .get("role", String::class.java)
     }
 }
