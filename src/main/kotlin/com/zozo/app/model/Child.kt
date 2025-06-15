@@ -15,8 +15,8 @@ data class Child(
     val birthday: LocalDate,
     val username: String,
     val password: String,
-    val gender: String,
-    val avatar: String,
+    val gender: GenderType,
+    val avatar: String = if (gender == GenderType.ZAINAH) "zainah.png" else "default.png")
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
