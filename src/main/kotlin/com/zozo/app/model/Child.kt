@@ -20,5 +20,12 @@ data class Child(
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
-    val parent: Parent
+    val parent: Parent,
+
+    @Enumerated(EnumType.STRING)
+    val stats: AccountStats = AccountStats.ENABLED
 )
+
+enum class AccountStats {
+    ENABLED, DISABLED
+}
