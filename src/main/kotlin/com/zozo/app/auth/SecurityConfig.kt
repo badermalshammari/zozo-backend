@@ -29,7 +29,7 @@ class SecurityConfig(
         return http
             .csrf { it.disable() }
             .authorizeHttpRequests {
-                it.requestMatchers("/auth/**").permitAll()
+                it.requestMatchers("/auth/**", "/api/auth/**").permitAll() // ✅ allow both
                     .requestMatchers("/api/parents/register").permitAll()
                     .requestMatchers("/api/children/create").hasRole("PARENT")
                     .anyRequest().authenticated()
