@@ -15,7 +15,7 @@ data class Child(
     val birthday: LocalDate,
     val username: String,
     val password: String,
-    val gender: String,
+    val gender: GenderType,
     val avatar: String,
 
     @ManyToOne
