@@ -2,6 +2,7 @@ package com.zozo.app.controller
 
 import com.zozo.app.model.Child
 import com.zozo.app.model.GenderType
+import com.zozo.app.model.Parent
 import com.zozo.app.service.ChildService
 import com.zozo.app.service.ParentService
 import org.springframework.http.HttpStatus
@@ -70,5 +71,5 @@ data class ChildRequest(
     val username: String,
     val password: String,
     val gender: GenderType,
-    val avatar: String
+    val avatar: String,
 )
