@@ -15,6 +15,8 @@ data class Child(
     val birthday: LocalDate,
     val username: String,
     val password: String,
+
+    @Enumerated(EnumType.STRING)
     val gender: GenderType,
     val avatar: String = if (gender == GenderType.ZAINAH) "zainah.png" else "zain.png",
 

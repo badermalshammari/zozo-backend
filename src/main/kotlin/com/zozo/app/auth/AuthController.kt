@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*
 class AuthController(
     private val authService: AuthService
 ) {
+
     @PostMapping("/login")
     fun login(@RequestBody request: AuthRequest): ResponseEntity<AuthResponse> {
         return try {
