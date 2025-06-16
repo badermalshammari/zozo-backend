@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service
 class ChildService(
     private val childRepo: ChildRepository,
     private val parentRepo: ParentRepository,
+    private val walletService: WalletService
 
 ) {
 
@@ -35,7 +36,6 @@ class ChildService(
 
         val savedChild = childRepo.save(child)
 
-        // ✅ Auto-create wallet after child is saved
         walletService.createWalletForChild(savedChild.childId)
 
         return savedChild
