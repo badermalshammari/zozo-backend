@@ -13,6 +13,11 @@ data class Child(
     val name: String,
     val civilId: String,
     val birthday: LocalDate,
+<<<<<<< wallet-work
+    val username: String,
+    val password: String,
+=======
+>>>>>>> main
 
     @Enumerated(EnumType.STRING)
     val gender: GenderType,
