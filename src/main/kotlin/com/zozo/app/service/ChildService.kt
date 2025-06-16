@@ -19,8 +19,8 @@ class ChildService(
         val parent: Parent = parentRepo.findByUsername(parentUsername)
             ?: throw IllegalArgumentException("Parent not found")
 
-        if (childRepo.findByUsername(request.name) != null) {
-            throw IllegalArgumentException("Child Name already exists")
+        if (childRepo.findByCivilId(request.civilId) != null) {
+            throw IllegalArgumentException("Child Civil ID already exists")
         }
 
 
