@@ -2,9 +2,8 @@ package com.zozo.app.model
 
 import jakarta.persistence.*
 
-
 @Entity
-data class ChildStoreVisibility(
+data class ChildStoreItem(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
@@ -13,8 +12,11 @@ data class ChildStoreVisibility(
     val child: Child,
 
     @ManyToOne
-    @JoinColumn(name = "item_id")
-    val item: StoreItem,
+    @JoinColumn(name = "global_item_id")
+    val globalItem: GlobalStoreItem,
 
-    val isHidden: Boolean
+    @JoinColumn(name = "global_item_name")
+    val globalItemName: String? = null,
+
+    var isHidden: Boolean = false
 )

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 
 
 @RestController
-@RequestMapping("/api/parents")
+@RequestMapping("/api/auth")
 class ParentController(
     private val parentService: ParentService
 ) {

@@ -15,8 +15,14 @@ data class OrderedItem(
 
     @ManyToOne
     @JoinColumn(name = "item_id")
-    val item: StoreItem,
+    val item: GlobalStoreItem,
 
-    val status: String,
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    val status: OrderStatus =  OrderStatus.COMPLETED,
     val orderedAt: LocalDateTime
 )
+enum class OrderStatus{
+    NOT_COMPLETED,
+    COMPLETED,
+}
