@@ -11,7 +11,7 @@ data class Wallet(
     @JoinColumn(name = "child_id")
     val child: Child,
 
-    val balance: Double,
-    val pointsBalance: Int,
-    val gems: Int
+    var balance: Double,
+    var pointsBalance: Int,
+    var gems: Int
 )
