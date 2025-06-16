@@ -104,7 +104,5 @@ data class CreateChildRequest(
     val name: String,
     val civilId: String,
     val birthday: LocalDate,
-    val username: String,
-    val password: String,
     val gender: GenderType
 )

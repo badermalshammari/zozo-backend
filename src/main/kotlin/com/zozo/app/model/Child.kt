@@ -13,9 +13,10 @@ data class Child(
     val name: String,
     val civilId: String,
     val birthday: LocalDate,
-    val username: String,
-    val password: String,
-    val gender: GenderType,
+
+    @Enumerated(EnumType.STRING)
+    val gender: GenderType? = GenderType.ZAIN,
+
     val avatar: String = if (gender == GenderType.ZAINAH) "zainah.png" else "zain.png",
 
     @ManyToOne
