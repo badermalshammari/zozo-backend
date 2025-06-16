@@ -17,6 +17,10 @@ data class OrderedItem(
     @JoinColumn(name = "item_id")
     val item: StoreItem,
 
-    val status: String,
+    val status: OrderStatus =  OrderStatus.COMPLETED,
     val orderedAt: LocalDateTime
 )
+enum class OrderStatus{
+    NOT_COMPLETED,
+    COMPLETED,
+}

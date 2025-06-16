@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/store")
+@RequestMapping("/api/store")
 
 class StoreController(private val storeService: StoreService) {
 
@@ -19,7 +19,6 @@ class StoreController(private val storeService: StoreService) {
     fun addItem(@RequestBody item: StoreItem): ResponseEntity<StoreItem> =
         ResponseEntity.ok(storeService.addItem(item))
 
-    // this endpoint allows a child to order an item by passing their id and the item id
     @PostMapping("/order")
     fun orderItem(@RequestParam childId: Long, @RequestParam itemId: Long): ResponseEntity<OrderedItem> =
         ResponseEntity.ok(storeService.orderItem(childId, itemId))

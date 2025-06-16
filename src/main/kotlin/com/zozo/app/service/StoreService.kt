@@ -1,5 +1,7 @@
 package com.zozo.app.service
 
+import com.zozo.app.model.Hide
+import com.zozo.app.model.OrderStatus
 import com.zozo.app.model.OrderedItem
 import com.zozo.app.model.StoreItem
 import com.zozo.app.repository.ChildRepository
@@ -42,8 +44,8 @@ class StoreService(
         val order = OrderedItem(
             child = child,
             item = item,
-            status = "ordered",
-            orderedAt = LocalDateTime.now()
+            status = OrderStatus.COMPLETED,
+            orderedAt = LocalDateTime.now(),
         )
         return orderedItemRepo.save(order)
     }
