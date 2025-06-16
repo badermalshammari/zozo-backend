@@ -13,26 +13,22 @@ import org.springframework.stereotype.Service
 class ChildService(
     private val childRepo: ChildRepository,
     private val parentRepo: ParentRepository,
-    private val passwordEncoder: PasswordEncoder,
-    private val walletService: WalletService
+
 ) {
 
     fun createChild(request: CreateChildRequest, parentUsername: String): Child {
         val parent: Parent = parentRepo.findByUsername(parentUsername)
             ?: throw IllegalArgumentException("Parent not found")
 
-        if (childRepo.findByUsername(request.username) != null) {
-            throw IllegalArgumentException("Child username already exists")
+        if (childRepo.findByUsername(request.name) != null) {
+            throw IllegalArgumentException("Child Name already exists")
         }
 
-        val encodedPassword = passwordEncoder.encode(request.password)
 
         val child = Child(
             name = request.name,
             civilId = request.civilId,
             birthday = request.birthday,
-            username = request.username,
-            password = encodedPassword,
             gender = request.gender,
             parent = parent
         )
