@@ -1,28 +1,27 @@
 package com.zozo.app.service
 
-import com.zozo.app.model.Hide
+import com.zozo.app.model.GlobalStoreItem
 import com.zozo.app.model.OrderStatus
 import com.zozo.app.model.OrderedItem
-import com.zozo.app.model.StoreItem
 import com.zozo.app.repository.ChildRepository
 import com.zozo.app.repository.OrderedItemRepository
-import com.zozo.app.repository.StoreItemRepository
+import com.zozo.app.repository.GlobalStoreItemRepository
 import com.zozo.app.repository.WalletRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
 class StoreService(
-    private val storeItemRepo: StoreItemRepository,
+    private val storeItemRepo: GlobalStoreItemRepository,
     private val orderedItemRepo: OrderedItemRepository,
     private val walletRepo: WalletRepository,
     private val childRepo: ChildRepository
 ) {
     //this function returns all store items (to show items to the child)
-    fun getAllItems(): List<StoreItem> = storeItemRepo.findAll()
+    fun getAllItems(): List<GlobalStoreItem> = storeItemRepo.findAll()
 
     //this function adds a new item to the store (by parent)
-    fun addItem(item: StoreItem): StoreItem = storeItemRepo.save(item)
+    fun addItem(item: GlobalStoreItem): GlobalStoreItem = storeItemRepo.save(item)
 
 
     //here the child orders an item from the store
