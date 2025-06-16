@@ -11,5 +11,6 @@ data class StoreItem(
     val description: String,
     val type: String,
     val age: Int,
-    val costInPoints: Int
+    val costInPoints: Int,
+    val costInGems: Int
 )
