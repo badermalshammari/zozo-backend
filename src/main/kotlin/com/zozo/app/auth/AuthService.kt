@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service
 @Service
 class AuthService(
     private val parentRepo: ParentRepository,
-    private val childRepo: ChildRepository,
     private val jwtService: JwtService,
     private val passwordEncoder: PasswordEncoder
 ) {

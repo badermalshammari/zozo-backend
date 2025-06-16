@@ -15,7 +15,7 @@ data class Child(
     val birthday: LocalDate,
 
     @Enumerated(EnumType.STRING)
-    val gender: GenderType,
+    val gender: GenderType? = GenderType.ZAIN,
 
     val avatar: String = if (gender == GenderType.ZAINAH) "zainah.png" else "zain.png",
 

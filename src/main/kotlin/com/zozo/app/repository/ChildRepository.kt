@@ -4,6 +4,7 @@ import com.zozo.app.model.Child
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface ChildRepository : JpaRepository<Child, Long> {
-    fun findByUsername(username: String): Child?
+    fun findByCivilId(civilId: String): Child?
+    fun findByName(name: String): Child?
     fun findAllByParent_ParentId(parentId: Long): List<Child>
 }
