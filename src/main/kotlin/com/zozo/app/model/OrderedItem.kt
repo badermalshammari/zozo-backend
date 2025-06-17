@@ -20,7 +20,8 @@ data class OrderedItem(
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     val status: OrderStatus =  OrderStatus.COMPLETED,
-    val orderedAt: LocalDateTime
+    val orderedAt: LocalDateTime,
+    val gemsCost: Int
 )
 enum class OrderStatus{
     NOT_COMPLETED,

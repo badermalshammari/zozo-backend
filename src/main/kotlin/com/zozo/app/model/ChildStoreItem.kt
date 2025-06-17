@@ -18,5 +18,7 @@ data class ChildStoreItem(
     @JoinColumn(name = "global_item_name")
     val globalItemName: String? = null,
 
-    var isHidden: Boolean = false
+    var isHidden: Boolean = false,
+    var wishList: Boolean = false
+
 )
