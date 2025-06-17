@@ -16,9 +16,14 @@ data class KidTask(
 
     val title: String,
     val description: String,
-    val type: String, // Educational Video / Task
+    @Enumerated(EnumType.STRING)
+    val type: TaskType, // Educational Video / Task
     val points: Int,
     val gems: Int,
     val videoFilename: String?,
     val coverPicture: String
 )
+
+enum class TaskType {
+    VEDIO, TASK
+}

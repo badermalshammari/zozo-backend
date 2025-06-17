@@ -17,10 +17,15 @@ data class TaskProgress(
     @JoinColumn(name = "task_id")
     val task: KidTask,
 
-    val status: String,
+    @Enumerated(EnumType.STRING)
+    val status: StatusType,
     val progressPercentage: Int,
     val currentTimeSeconds: Int,
     val earnedPoints: Int,
     val earnedGems: Int,
     val completedAt: LocalDateTime?
 )
+
+enum class StatusType {
+    NEW, INPROGRESS ,FINISHED
+}
