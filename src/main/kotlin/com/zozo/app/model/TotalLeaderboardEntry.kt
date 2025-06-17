@@ -9,7 +9,9 @@ data class TotalLeaderboardEntry(
     val totalScore: Int,
     val rank: Int,
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null,
+
     @OneToOne
     @JoinColumn(name = "child_id")
     val child: Child
