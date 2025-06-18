@@ -2,18 +2,14 @@ package com.zozo.app.service
 
 import com.zozo.app.model.Wallet
 import com.zozo.app.model.Child
-import com.zozo.app.repository.BankCardRepository
 import com.zozo.app.repository.WalletRepository
 import com.zozo.app.repository.ChildRepository
 import org.springframework.stereotype.Service
-import java.math.BigDecimal
 
 @Service
 class WalletService(
     private val walletRepo: WalletRepository,
-    private val childRepo: ChildRepository,
-    private val bankCardRepo: BankCardRepository,
-) {
+    private val childRepo: ChildRepository,) {
     fun createWalletForChild(childId: Long): Wallet {
         val child = childRepo.findById(childId).orElseThrow {
             Exception("Child not found with ID: $childId")
@@ -64,7 +60,6 @@ class WalletService(
         return walletRepo.save(updatedWallet)
     }
 
-    // ✅ helper method to avoid repetition
     private fun getChildIfOwnedByParent(childId: Long, parentUsername: String): Child {
         val child = childRepo.findById(childId).orElseThrow {
             Exception("Child not found with ID: $childId")

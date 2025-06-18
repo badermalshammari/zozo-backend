@@ -12,13 +12,6 @@ data class Wallet(
     @JoinColumn(name = "child_id", unique = true)
     val child: Child,
 
-    @OneToOne
-    val card: BankCard? = null,
-
     var pointsBalance: Int,
     var gems: Int
-) {
-    @get:Transient
-    val balance: BigDecimal?
-        get() = card?.balance
-}
+)

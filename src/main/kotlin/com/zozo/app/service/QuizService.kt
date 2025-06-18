@@ -29,7 +29,7 @@ class QuizService(
             optionC = request.optionC,
             optionD = request.optionD,
             correctOption = request.correctOption,
-            title = request.title ?: task.title
+            title = request.title
         )
 
         return quizRepo.save(quiz)
