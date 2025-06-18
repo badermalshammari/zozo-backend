@@ -12,5 +12,13 @@ data class Quiz(
     @JoinColumn(name = "task_id")
     val task: KidTask,
 
-    val title: String
+    val questionText: String,
+    val optionA: String,
+    val optionB: String,
+    val optionC: String,
+    val optionD: String,
+    val correctOption: String,
+    val status: TaskStatus = TaskStatus.NOT_STARTED,
+
+    val title: String? = "${task.title}"
 )

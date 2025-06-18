@@ -1,6 +1,7 @@
 package com.zozo.app.model
 
 import jakarta.persistence.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 
@@ -18,6 +19,6 @@ data class QuizAttempt(
     @JoinColumn(name = "quiz_id")
     val quiz: Quiz,
 
-    val score: Int,
-    val attemptedAt: LocalDateTime
+    val score: Int? = 0,
+    val attemptedAt: LocalDateTime? = LocalDateTime.now(),
 )
