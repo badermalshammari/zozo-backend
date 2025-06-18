@@ -17,12 +17,16 @@ data class TaskProgress(
     @JoinColumn(name = "task_id")
     val task: KidTask,
 
+    @Enumerated(EnumType.STRING)
     var status: TaskStatus? = TaskStatus.NOT_STARTED,
+
     var progressPercentage: Int,
     var currentTimeSeconds: Int,
     var earnedPoints: Int,
     var earnedGems: Int,
     var completedAt: LocalDateTime?,
+
+    @Enumerated(EnumType.STRING)
     var type: TaskType
 )
 enum class TaskStatus {

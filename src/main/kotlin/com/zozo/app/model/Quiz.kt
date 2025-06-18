@@ -18,6 +18,8 @@ data class Quiz(
     val optionC: String,
     val optionD: String,
     val correctOption: String,
+
+    @Enumerated(EnumType.STRING)
     val status: TaskStatus = TaskStatus.NOT_STARTED,
 
     val title: String? = "${task.title}"

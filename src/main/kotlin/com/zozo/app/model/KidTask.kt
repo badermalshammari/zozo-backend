@@ -21,7 +21,10 @@ data class KidTask(
 
     val title: String,
     val description: String,
+
+    @Enumerated(EnumType.STRING)
     val type: TaskType,
+
     val points: Int? = if (type == TaskType.TASK) 50 else if (type == TaskType.QUIZ) 50 else 100,
     val gems: Int,
 

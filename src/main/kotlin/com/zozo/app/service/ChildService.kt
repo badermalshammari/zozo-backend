@@ -17,7 +17,8 @@ class ChildService(
     private val parentRepo: ParentRepository,
     private val walletService: WalletService,
     private val globalStoreItemRepository: GlobalStoreItemRepository,
-    private val childStoreItemRepository: ChildStoreItemRepository
+    private val childStoreItemRepository: ChildStoreItemRepository,
+    private val cardService: BankCardService
 
 ) {
 
@@ -35,8 +36,8 @@ class ChildService(
             gender = request.gender,
             parent = parent
         )
-
         val savedChild = childRepo.save(child)
+        cardService.createCardForChild(child.childId)
 
         walletService.createWalletForChild(savedChild.childId)
 
