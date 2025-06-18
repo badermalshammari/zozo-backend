@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service
 @Service
 class ParentService(
     private val parentRepo: ParentRepository,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val cardService: BankCardService
+
 ) {
 
     fun createParent(name: String, username: String, password: String, phoneNumber: String): Parent {
@@ -24,7 +26,7 @@ class ParentService(
             password = encodedPassword,
             phoneNumber = phoneNumber
         )
-
+        cardService.createCardForParent(parent.parentId)
         return parentRepo.save(parent)
     }
 }

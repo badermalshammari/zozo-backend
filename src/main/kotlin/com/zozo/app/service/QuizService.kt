@@ -11,6 +11,7 @@ class QuizService(
     private val childRepo: ChildRepository,
     private val kidTaskRepository: KidTaskRepository,
     private val taskProgressRepository: TaskProgressRepository,
+    private val taskProgressService: TaskProgressService,
     private val walletService: WalletService
 ) {
 
@@ -42,14 +43,15 @@ class QuizService(
 
         val child = childRepo.findById(childId).orElseThrow()
         val quiz = quizRepo.findById(quizId).orElseThrow()
+        val task = quiz.task
 
         val isCorrect = selectedAnswer == quiz.correctOption
 
-        val earnedPoints = if (isCorrect) 50 else 0
-        val earnedGems = if (isCorrect) 20 else 0
+        val earnedPoints = if (isCorrect) task.points ?: 0 else 0
+        val earnedGems = if (isCorrect) task.gems else 0
 
 
-        walletService.getWalletByChildId(childId).balance += earnedPoints.toDouble()
+        walletService.getWalletByChildId(childId).balance += earnedPoints
         walletService.getWalletByChildId(childId).gems += earnedGems
 
         childRepo.save(child)
@@ -61,6 +63,7 @@ class QuizService(
             if (isCorrect) {
                 progress.status = TaskStatus.FINISHED
                 progress.progressPercentage = 100
+                taskProgressService.completeTask(childId, progress.task.taskId)
             }
             taskProgressRepository.save(progress)
         }

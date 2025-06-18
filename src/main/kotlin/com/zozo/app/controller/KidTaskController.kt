@@ -30,11 +30,10 @@ class KidTaskController(
 
     @PostMapping("/complete")
     fun markTaskAsFinished(
-        @RequestParam parentId: Long,
         @RequestParam childId: Long,
         @RequestParam taskId: Long
     ): ResponseEntity<TaskProgress> {
-        val updated = taskProgressService.completeTaskByParent(parentId, childId, taskId)
+        val updated = taskProgressService.completeTask(childId, taskId)
         return ResponseEntity.ok(updated)
     }
 }
