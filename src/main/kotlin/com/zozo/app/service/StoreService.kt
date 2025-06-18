@@ -34,26 +34,21 @@ class StoreService(
         if (wallet.gems < item.costInGems)
             throw Exception("Not enough gems")
 
-        //deduct the items gem cost from the wallet
         wallet.gems -= item.costInGems
         walletRepo.save(wallet) //wallet with fewer gems
 
-        //now we create a new OrderedItem  to record this order
-        //this links the child and the item they chose, sets the status to "ordered" and saves the current time so we know exactly when the order was made
         val order = OrderedItem(
             child = child,
             item = item,
             status = OrderStatus.COMPLETED,
             orderedAt = LocalDateTime.now(),
+            gemsCost =  item.costInGems
         )
         return orderedItemRepo.save(order)
     }
 
-    //this function is used to get all orders made by a specific child
     fun getChildOrders(childId: Long): List<OrderedItem> {
-        //first find the child
         val child = childRepo.findById(childId).orElseThrow()
-        //then return the orders that belongs to this child
         return orderedItemRepo.findAll().filter { it.child == child }
     }
 }
