@@ -19,7 +19,6 @@ class ChildService(
     private val globalStoreItemRepository: GlobalStoreItemRepository,
     private val childStoreItemRepository: ChildStoreItemRepository,
     private val cardService: BankCardService
-
 ) {
 
     fun createChild(request: CreateChildRequest, parentUsername: String): Child {
@@ -29,6 +28,7 @@ class ChildService(
         if (childRepo.findByCivilId(request.civilId) != null) {
             throw IllegalArgumentException("Child Civil ID already exists")
         }
+
         val child = Child(
             name = request.name,
             civilId = request.civilId,
@@ -36,9 +36,11 @@ class ChildService(
             gender = request.gender,
             parent = parent
         )
-        val savedChild = childRepo.save(child)
-        cardService.createCardForChild(child.childId)
 
+        val savedChild = childRepo.save(child)
+
+        // ✅ Use savedChild with real generated ID
+        cardService.createCardForChild(savedChild.childId)
         walletService.createWalletForChild(savedChild.childId)
 
         val globalItems = globalStoreItemRepository.findAll()
@@ -47,13 +49,15 @@ class ChildService(
                 child = savedChild,
                 globalItem = globalItem,
                 isHidden = false,
-                globalItemName = globalItem.name
+                globalItemName = globalItem.name,
+                wishList = false
             )
         }
         childStoreItemRepository.saveAll(childStoreItems)
 
         return savedChild
     }
+
     fun getChildrenForParent(parentUsername: String): List<Child> {
         val parent = parentRepo.findByUsername(parentUsername)
             ?: throw IllegalArgumentException("Parent not found")

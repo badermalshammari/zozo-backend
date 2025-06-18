@@ -19,7 +19,7 @@ data class BankCard(
     val expiryMonth: Int,
     val expiryYear: Int,
     val cvv: String? = (100..999).random().toString(),
-    var balnace: BigDecimal? = BigDecimal.ZERO,
+    var balance: BigDecimal? = BigDecimal.ZERO,
     val cardDesign: String? = "default.png",
     val isActive: Boolean = true,
 

@@ -35,23 +35,23 @@ class WalletController(
         }
     }
 
-    @PreAuthorize("hasRole('PARENT')")
-    @PostMapping("/child/{childId}/add-balance")
-    fun addBalanceToChild(
-        @PathVariable childId: Long,
-        @RequestBody request: AddBalanceRequest
-    ): ResponseEntity<Wallet> {
-        val parentUsername = getAuthenticatedUsername() ?: return ResponseEntity.status(401).build()
-
-        return try {
-            val wallet = walletService.addToChildBalance(childId, request.amount, parentUsername)
-            ResponseEntity.ok(wallet)
-        } catch (e: IllegalAccessException) {
-            ResponseEntity.status(403).build()
-        } catch (e: Exception) {
-            ResponseEntity.badRequest().build()
-        }
-    }
+//    @PreAuthorize("hasRole('PARENT')")
+//    @PostMapping("/child/{childId}/add-balance")
+//    fun addBalanceToChild(
+//        @PathVariable childId: Long,
+//        @RequestBody request: AddBalanceRequest
+//    ): ResponseEntity<Wallet> {
+//        val parentUsername = getAuthenticatedUsername() ?: return ResponseEntity.status(401).build()
+//
+//        return try {
+////            val wallet = walletService.addToChildBalance(childId, request.amount, parentUsername)
+////            ResponseEntity.ok(wallet)
+//        } catch (e: IllegalAccessException) {
+//            ResponseEntity.status(403).build()
+//        } catch (e: Exception) {
+//            ResponseEntity.badRequest().build()
+//        }
+//    }
 
     private fun getAuthenticatedUsername(): String? {
         return SecurityContextHolder.getContext().authentication?.name

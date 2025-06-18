@@ -20,13 +20,16 @@ class ParentService(
 
         val encodedPassword = passwordEncoder.encode(password)
 
-        val parent = Parent(
-            name = name,
-            username = username,
-            password = encodedPassword,
-            phoneNumber = phoneNumber
+        val savedParent = parentRepo.save(
+            Parent(
+                name = name,
+                username = username,
+                password = encodedPassword,
+                phoneNumber = phoneNumber
+            )
         )
-        cardService.createCardForParent(parent.parentId)
-        return parentRepo.save(parent)
+        cardService.createCardForParent(savedParent.parentId)
+
+        return savedParent
     }
 }

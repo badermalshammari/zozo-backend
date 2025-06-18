@@ -17,10 +17,10 @@ class TransactionService(
         val fromCard = bankCardRepo.findById(fromCardId).orElseThrow()
         val toCard = bankCardRepo.findById(toCardId).orElseThrow()
 
-        if (fromCard.balnace!! < amount) throw IllegalArgumentException("Insufficient balance")
+        if (fromCard.balance!! < amount) throw IllegalArgumentException("Insufficient balance")
 
-        fromCard.balnace = fromCard.balnace!!.minus(amount)
-        toCard.balnace = toCard.balnace!!.plus(amount)
+        fromCard.balance = fromCard.balance!!.minus(amount)
+        toCard.balance = toCard.balance!!.plus(amount)
 
         bankCardRepo.save(fromCard)
         bankCardRepo.save(toCard)
