@@ -29,7 +29,7 @@ class QuizService(
             optionC = request.optionC,
             optionD = request.optionD,
             correctOption = request.correctOption,
-            title = request.title ?: task.title // نستخدم عنوان التاسك إذا ما انعطى عنوان
+            title = request.title
         )
 
         return quizRepo.save(quiz)
@@ -51,7 +51,7 @@ class QuizService(
         val earnedGems = if (isCorrect) task.gems else 0
 
 
-        walletService.getWalletByChildId(childId).balance += earnedPoints
+        walletService.getWalletByChildId(childId).pointsBalance += earnedPoints
         walletService.getWalletByChildId(childId).gems += earnedGems
 
         childRepo.save(child)

@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class WalletService(
     private val walletRepo: WalletRepository,
-    private val childRepo: ChildRepository
-) {
+    private val childRepo: ChildRepository,) {
     fun createWalletForChild(childId: Long): Wallet {
         val child = childRepo.findById(childId).orElseThrow {
             Exception("Child not found with ID: $childId")
@@ -22,7 +21,6 @@ class WalletService(
 
         val wallet = Wallet(
             child = child,
-            balance = 0.0,
             pointsBalance = 0,
             gems = 0
         )
@@ -44,11 +42,17 @@ class WalletService(
             ?: throw Exception("Wallet not found for this child")
     }
 
-    fun addToChildBalance(childId: Long, amount: Double, parentUsername: String): Wallet {
-        val wallet = getWalletIfOwnedByParent(childId, parentUsername)
-        val updatedWallet = wallet.copy(balance = wallet.balance + amount)
-        return walletRepo.save(updatedWallet)
-    }
+//    fun addToChildBalance(childId: Long, amount: Double, parentUsername: String): Wallet {
+//        val wallet = getWalletIfOwnedByParent(childId, parentUsername)
+//        val amountBD = BigDecimal.valueOf(amount)
+//        wallet.balance = wallet.balance?.add(amountBD)
+//
+//        wallet.card?.let {
+//            it.balance = it.balance?.add(amountBD)
+//        }
+//
+//        return walletRepo.save(wallet)
+//    }
 
     fun addGemsToChild(childId: Long, gems: Int, parentUsername: String): Wallet {
         val wallet = getWalletIfOwnedByParent(childId, parentUsername)
@@ -56,7 +60,6 @@ class WalletService(
         return walletRepo.save(updatedWallet)
     }
 
-    // ✅ helper method to avoid repetition
     private fun getChildIfOwnedByParent(childId: Long, parentUsername: String): Child {
         val child = childRepo.findById(childId).orElseThrow {
             Exception("Child not found with ID: $childId")
