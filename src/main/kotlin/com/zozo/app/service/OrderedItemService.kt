@@ -22,7 +22,8 @@ class OrderedItemService(
             child = child,
             item = item,
             orderedAt = LocalDateTime.now(),
-            status = OrderStatus.COMPLETED
+            status = OrderStatus.COMPLETED,
+            gemsCost = item.costInGems
         )
         return orderedItemRepository.save(order)
     }

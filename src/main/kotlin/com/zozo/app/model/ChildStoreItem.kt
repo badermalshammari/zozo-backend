@@ -20,6 +20,8 @@ data class ChildStoreItem(
 
     var isHidden: Boolean = false,
 
+
     @Column(nullable = false)
     var wishList: Boolean = false
+
 )

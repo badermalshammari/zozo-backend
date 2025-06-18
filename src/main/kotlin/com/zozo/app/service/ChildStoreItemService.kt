@@ -18,5 +18,10 @@ class ChildStoreItemService(
         item.isHidden = !item.isHidden
         return repository.save(item)
     }
+    fun toggleItemWishList(childStoreItemId: Long): ChildStoreItem {
+        val item = repository.findById(childStoreItemId).orElseThrow()
+        item.wishList = !item.wishList
+        return repository.save(item)
+    }
 
 }
