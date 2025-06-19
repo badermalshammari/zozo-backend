@@ -1,5 +1,7 @@
 package com.zozo.app.controller
 
+import com.zozo.app.auth.AuthResponse
+import com.zozo.app.auth.JwtService
 import com.zozo.app.model.Parent
 import com.zozo.app.repository.ParentRepository
 import com.zozo.app.service.ParentService
@@ -14,24 +16,27 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/auth")
 class ParentController(
     private val parentService: ParentService,
-    private val parentReop: ParentRepository
+    private val parentReop: ParentRepository,
+    private val jwtService: JwtService
+
 ) {
 
+
     @PostMapping("/register")
-    fun registerParent(@RequestBody request: CreateParentRequest): ResponseEntity<Parent> {
-        return try {
-            val savedParent = parentService.createParent(
+    fun registerParent(@RequestBody request: CreateParentRequest): ResponseEntity<out Any?> {
+
+        val savedParent = parentService.createParent(
                 name = request.name,
                 username = request.username,
                 password = request.password,
                 phoneNumber = request.phoneNumber
             )
-            ResponseEntity(savedParent, HttpStatus.CREATED)
-        } catch (_: IllegalArgumentException) {
-            ResponseEntity.status(HttpStatus.CONFLICT).build()
-        }
-    }
 
+            val token = jwtService.generateToken(savedParent.username,  "PARENT")
+
+            val response = AuthResponse(token = token, parent = savedParent)
+            return ResponseEntity.ok(response)
+    }
     @GetMapping("/me")
     fun getMe(@AuthenticationPrincipal user: UserDetails): ResponseEntity<Parent> {
         val parent = parentReop.findByUsername(user.username)

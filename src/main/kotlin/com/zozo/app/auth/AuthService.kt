@@ -19,7 +19,7 @@ class AuthService(
         val parent = parentRepo.findByUsername(username)
         if (parent != null && passwordEncoder.matches(password, parent.password)) {
             val token = jwtService.generateToken(username, "PARENT")
-            return AuthResponse(token)
+            return AuthResponse(token, parent)
         }
         throw IllegalArgumentException("Invalid username or password")
     }

@@ -13,7 +13,6 @@ data class Parent(
     val username: String,
     val password: String,
     val phoneNumber: String,
-
 )
 
 enum class AccountStats {
