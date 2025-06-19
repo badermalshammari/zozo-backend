@@ -24,9 +24,5 @@ data class Child(
     val parent: Parent,
 
     @Enumerated(EnumType.STRING)
-    val stats: AccountStats = AccountStats.ENABLED
+    val stats: AccountStatus? = AccountStatus.ACTIVE
 )
-
-enum class AccountStats {
-    ENABLED, DISABLED
-}

@@ -12,5 +12,13 @@ data class Parent(
     val name: String,
     val username: String,
     val password: String,
-    val phoneNumber: String
+
+    @Enumerated(EnumType.STRING)
+    val status: AccountStatus? = AccountStatus.ACTIVE
+
 )
+
+enum class AccountStatus {
+    ACTIVE,
+    INACTIVE
+}
