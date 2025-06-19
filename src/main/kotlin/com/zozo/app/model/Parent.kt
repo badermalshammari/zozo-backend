@@ -12,5 +12,9 @@ data class Parent(
     val name: String,
     val username: String,
     val password: String,
-    val phoneNumber: String
+    val phoneNumber: String,
 )
+
+enum class AccountStats {
+    ENABLED, DISABLED
+}

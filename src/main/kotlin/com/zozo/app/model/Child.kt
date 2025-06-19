@@ -27,6 +27,3 @@ data class Child(
     val stats: AccountStats = AccountStats.ENABLED
 )
 
-enum class AccountStats {
-    ENABLED, DISABLED
-}

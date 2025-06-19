@@ -13,13 +13,13 @@ data class BankCard(
     val cardId: Long = 0,
 
 
-    val accountNumber: Long? = (100_000_000L..999_999_999L).random(),
-    val cardNumber: String? = "53" + (1..14).joinToString("") { (0..9).random().toString() },
+    val accountNumber: Long = (100_000_000L..999_999_999L).random(),
+    val cardNumber: String = "53" + (1..14).joinToString("") { (0..9).random().toString() },
     val cardHolderName: String,
     val expiryMonth: Int,
     val expiryYear: Int,
-    val cvv: String? = (100..999).random().toString(),
-    var balance: BigDecimal? = BigDecimal.ZERO,
+    val cvv: String = (100..999).random().toString(),
+    var balance: BigDecimal = BigDecimal.ZERO,
     val cardDesign: String? = "default.png",
     val isActive: Boolean = true,
 

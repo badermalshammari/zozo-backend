@@ -4,13 +4,14 @@ import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.web.filter.OncePerRequestFilter
 
 class JwtAuthFilter(
-    private val jwtService: JwtService
+    private val jwtService: JwtService,
+    private val userDetailsService: UserDetailsService
 ) : OncePerRequestFilter() {
 
     override fun doFilterInternal(
@@ -32,12 +33,11 @@ class JwtAuthFilter(
             return
         }
 
-        val role = jwtService.extractRole(token) // 👈 extract role
-
-        val authorities = listOf(SimpleGrantedAuthority("ROLE_$role")) // 👈 ROLE_PARENT / ROLE_CHILD
-
         if (SecurityContextHolder.getContext().authentication == null) {
-            val authToken = UsernamePasswordAuthenticationToken(username, null, authorities)
+            val userDetails = userDetailsService.loadUserByUsername(username)
+            val authToken = UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.authorities
+            )
             authToken.details = WebAuthenticationDetailsSource().buildDetails(request)
             SecurityContextHolder.getContext().authentication = authToken
         }
