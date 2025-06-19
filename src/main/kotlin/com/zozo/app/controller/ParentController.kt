@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/auth")
 class ParentController(
     private val parentService: ParentService,
-    private val parentReop: ParentRepository,
+    private val parentRepo: ParentRepository,
     private val jwtService: JwtService
 
 ) {
@@ -38,17 +38,40 @@ class ParentController(
             return ResponseEntity.ok(response)
     }
     @GetMapping("/me")
-    fun getMe(@AuthenticationPrincipal user: UserDetails): ResponseEntity<Parent> {
-        val parent = parentReop.findByUsername(user.username)
-            ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+    fun getMe(@AuthenticationPrincipal user: UserDetails?): ResponseEntity<ParentDTO> {
+        println("🔒 JWT user from token: $user")
 
-        return ResponseEntity.ok(parent)
+        if (user == null) {
+            println("❌ No user found in SecurityContext")
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+        }
+
+        val parent = parentRepo.findByUsername(user.username)
+        if (parent == null) {
+            println("❌ No parent found with username: ${user.username}")
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+        }
+
+        println("✅ Found parent: ${parent.username}")
+        val dto = ParentDTO(
+            parentId = parent.parentId,
+            name = parent.name,
+            username = parent.username,
+            phoneNumber = parent.phoneNumber
+        )
+        return ResponseEntity.ok(dto)
     }
 
     data class CreateParentRequest(
         val name: String,
         val username: String,
         val password: String,
+        val phoneNumber: String
+    )
+    data class ParentDTO(
+        val parentId: Long,
+        val name: String,
+        val username: String,
         val phoneNumber: String
     )
 }

@@ -36,7 +36,6 @@ class SecurityConfig(
                 it.requestMatchers("/auth/**", "/api/auth/**").permitAll()
                     .requestMatchers("/api/children/create").hasRole("PARENT")
                     .requestMatchers("/api/child/**").hasRole("CHILD")
-                    .requestMatchers("/api/auth/me").hasRole("PARENT")
                     .anyRequest().authenticated()
             }
             .exceptionHandling {
