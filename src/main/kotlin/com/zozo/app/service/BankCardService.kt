@@ -41,7 +41,7 @@ import java.math.BigDecimal
     }
      fun topUp(toCardId: Long, amount: BigDecimal): BankCard {
          val toCard = bankCardRepo.findById(toCardId).orElseThrow()
-         toCard.balance = toCard.balance?.plus(amount)
+         toCard.balance = toCard.balance?.plus(amount)!!
          return bankCardRepo.save(toCard)
      }
 

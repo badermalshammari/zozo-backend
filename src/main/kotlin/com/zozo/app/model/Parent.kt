@@ -13,6 +13,8 @@ data class Parent(
     val username: String,
     val password: String,
     val phoneNumber: String,
+    @Enumerated(EnumType.STRING)
+    val role: RoleType = RoleType.PARENT
 )
 
 enum class AccountStats {

@@ -35,6 +35,8 @@ class SecurityConfig(
             .authorizeHttpRequests {
                 it.requestMatchers("/auth/**", "/api/auth/**").permitAll()
                     .requestMatchers("/api/children/create").hasRole("PARENT")
+                    .requestMatchers("/api/child/**").hasRole("CHILD")
+                    .requestMatchers("/api/auth/me").hasRole("PARENT")
                     .anyRequest().authenticated()
             }
             .exceptionHandling {
@@ -55,7 +57,7 @@ class SecurityConfig(
             org.springframework.security.core.userdetails.User(
                 user.username,
                 user.password,
-                listOf(SimpleGrantedAuthority("PARENT"))
+                listOf(SimpleGrantedAuthority("ROLE_PARENT"))
             )
         }
     }

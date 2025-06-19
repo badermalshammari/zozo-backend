@@ -1,15 +1,20 @@
 package com.zozo.app.service
 
+import com.zozo.app.dto.LeaderboardEntry
 import com.zozo.app.model.Wallet
 import com.zozo.app.model.Child
+import com.zozo.app.model.Parent
 import com.zozo.app.repository.WalletRepository
 import com.zozo.app.repository.ChildRepository
+import com.zozo.app.repository.ParentRepository
 import org.springframework.stereotype.Service
 
 @Service
 class WalletService(
     private val walletRepo: WalletRepository,
-    private val childRepo: ChildRepository,) {
+    private val childRepo: ChildRepository,
+    private val parentRepo: ParentRepository
+) {
     fun createWalletForChild(childId: Long): Wallet {
         val child = childRepo.findById(childId).orElseThrow {
             Exception("Child not found with ID: $childId")
@@ -53,6 +58,42 @@ class WalletService(
 //
 //        return walletRepo.save(wallet)
 //    }
+fun getPointsLeaderboardForParent(parentUsername: String, top: Int): List<LeaderboardEntry> {
+    val parent: Parent = parentRepo.findByUsername(parentUsername)
+        ?: throw IllegalArgumentException("Parent not found")
+
+    val children = childRepo.findAllByParent_ParentId(parent.parentId)
+
+    return children.mapNotNull { child ->
+        walletRepo.findByChild(child)?.let { wallet ->
+            LeaderboardEntry(
+                childId = child.childId,
+                name = child.name,
+                avatar = child.avatar,
+                points = wallet.pointsBalance
+            )
+        }
+    }.sortedByDescending { it.points }
+        .take(top)
+}
+    fun getPointsLeaderboardForChild(childUsername: String, top: Int): List<LeaderboardEntry> {
+        val child = childRepo.findByCivilId(childUsername)
+            ?: throw IllegalArgumentException("Child not found")
+
+        val siblings = childRepo.findAllByParent_ParentId(child.parent.parentId)
+
+        return siblings.mapNotNull { sibling ->
+            walletRepo.findByChild(sibling)?.let { wallet ->
+                LeaderboardEntry(
+                    childId = sibling.childId,
+                    name = sibling.name,
+                    avatar = sibling.avatar,
+                    points = wallet.pointsBalance
+                )
+            }
+        }.sortedByDescending { it.points }
+            .take(top)
+    }
 
     fun addGemsToChild(childId: Long, gems: Int, parentUsername: String): Wallet {
         val wallet = getWalletIfOwnedByParent(childId, parentUsername)

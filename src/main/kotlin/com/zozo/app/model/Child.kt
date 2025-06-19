@@ -24,6 +24,9 @@ data class Child(
     val parent: Parent,
 
     @Enumerated(EnumType.STRING)
+    val role: RoleType = RoleType.CHILD,
+
+    @Enumerated(EnumType.STRING)
     val stats: AccountStats = AccountStats.ENABLED
 )
 

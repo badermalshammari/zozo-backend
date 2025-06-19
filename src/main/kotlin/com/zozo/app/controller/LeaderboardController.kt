@@ -1,31 +1,34 @@
 package com.zozo.app.controller
 
-import com.zozo.app.service.ChildLeaderboardDTO
-import com.zozo.app.service.LeaderboardService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import com.zozo.app.dto.LeaderboardEntry
+import com.zozo.app.service.WalletService
+import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/leaderboard")
-class LeaderboardController (
-    private val leaderboardService: LeaderboardService,
-){
+class LeaderboardController(
+    private val walletService: WalletService
+) {
 
-    @GetMapping("/parent/{parentId}")
-    fun getParentLeaderboard(
-        @PathVariable parentId: Long,
-    ): List<ChildLeaderboardDTO>
-    {
-        return leaderboardService.getLeaderBoardforParent(parentId)
-    }
+    @GetMapping
+    @PreAuthorize("hasAnyRole('PARENT', 'CHILD')")
+    fun getPointsLeaderboard(
+        @RequestParam(defaultValue = "10") top: Int
+    ): ResponseEntity<List<LeaderboardEntry>> {
 
-    @GetMapping("/child/{childId}")
-    fun getChildLeaderboard(
-        @PathVariable childId: Long
-    ): List<ChildLeaderboardDTO>
-    {
-     return leaderboardService.getLeaderboardForChild(childId)
+        val auth = SecurityContextHolder.getContext().authentication
+        val username = auth.name
+        val role = auth.authorities.first().authority
+
+        val leaderboard = when (role) {
+            "ROLE_PARENT" -> walletService.getPointsLeaderboardForParent(username, top)
+            "ROLE_CHILD" -> walletService.getPointsLeaderboardForChild(username, top)
+            else -> throw IllegalAccessException("Unauthorized role")
+        }
+
+        return ResponseEntity.ok(leaderboard)
     }
 }
