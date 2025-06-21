@@ -1,5 +1,6 @@
 package com.zozo.app.service
 
+import com.zozo.app.dto.BankCardDto
 import com.zozo.app.model.BankCard
 import com.zozo.app.repository.BankCardRepository
 import com.zozo.app.repository.ChildRepository
@@ -44,5 +45,32 @@ import java.math.BigDecimal
          toCard.balance = toCard.balance?.plus(amount)!!
          return bankCardRepo.save(toCard)
      }
+    fun getParentCard(parentId: Long): List<BankCard> {
+        return bankCardRepo.findAllByParent_ParentId(parentId)
+    }
+    fun getChildCardIfOwnedByParent(childId: Long, parentId: Long): BankCard {
+        val card = bankCardRepo.findByChild_ChildId(childId)
+            ?: throw IllegalArgumentException("Card not found for childId: $childId")
+
+        if (card.child?.parent?.parentId != parentId) {
+            throw IllegalAccessException("Access denied: This child does not belong to you")
+        }
+
+        return card
+    }
+    fun mapToDto(card: BankCard): BankCardDto {
+        return BankCardDto(
+            cardId = card.cardId,
+            cardNumber = card.cardNumber,
+            accountNumber = card.accountNumber,
+            cardHolderName = card.cardHolderName,
+            expiryMonth = card.expiryMonth,
+            expiryYear = card.expiryYear,
+            cvv = card.cvv,
+            balance = card.balance,
+            cardDesign = card.cardDesign,
+        )
+    }
+
 
  }

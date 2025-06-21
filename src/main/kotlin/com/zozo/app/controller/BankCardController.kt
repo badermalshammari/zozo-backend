@@ -1,9 +1,12 @@
 package com.zozo.app.controller
 
+import com.zozo.app.dto.BankCardDto
 import com.zozo.app.model.BankCard
 import com.zozo.app.repository.ChildRepository
 import com.zozo.app.repository.ParentRepository
 import com.zozo.app.service.BankCardService
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.*
 import java.math.BigDecimal
 
@@ -34,5 +37,21 @@ class BankCardController(
         @RequestParam amount: BigDecimal
     ): BankCard {
         return service.topUp(toCardId, amount)
+    }
+    @GetMapping("/parent/{parentId}")
+    fun getParentCards(@PathVariable parentId: Long): List<BankCardDto> {
+        val cards = service.getParentCard(parentId)
+        return cards.map { service.mapToDto(it) }
+    }
+    @GetMapping("/child/{childId}")
+    fun getChildCard(
+        @PathVariable childId: Long,
+        @AuthenticationPrincipal userDetails: UserDetails
+    ): BankCardDto {
+        val parent = parentRepo.findByUsername(userDetails.username)
+            ?: throw IllegalArgumentException("Parent not found")
+
+        val card = service.getChildCardIfOwnedByParent(childId, parent.parentId)
+        return service.mapToDto(card)
     }
 }
