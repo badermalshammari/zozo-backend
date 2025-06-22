@@ -69,6 +69,7 @@ import java.math.BigDecimal
             cvv = card.cvv,
             balance = card.balance,
             cardDesign = card.cardDesign,
+            isParentCard = card.child == null
         )
     }
 

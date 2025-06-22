@@ -12,4 +12,5 @@ data class BankCardDto(
     val cvv: String,
     val balance: BigDecimal,
     val cardDesign: String?,
+    val isParentCard: Boolean,
 )
