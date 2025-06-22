@@ -1,6 +1,8 @@
 package com.zozo.app.controller
 
 
+import com.zozo.app.dto.ChildDto
+import com.zozo.app.dto.WalletResponseDto
 import com.zozo.app.model.Wallet
 import com.zozo.app.service.WalletService
 import org.springframework.http.ResponseEntity
@@ -22,17 +24,22 @@ class WalletController(
 
     @PreAuthorize("hasRole('PARENT')")
     @GetMapping("/child/{childId}")
-    fun getWalletForChild(@PathVariable childId: Long): ResponseEntity<Wallet> {
-        val parentUsername = getAuthenticatedUsername() ?: return ResponseEntity.status(401).build()
+    fun getWalletByChildId(@PathVariable childId: Long): WalletResponseDto {
+        val wallet = walletService.getWalletByChildId(childId)
+        val child = wallet.child
 
-        return try {
-            val wallet = walletService.getWalletIfOwnedByParent(childId, parentUsername)
-            ResponseEntity.ok(wallet)
-        } catch (e: IllegalAccessException) {
-            ResponseEntity.status(403).build()
-        } catch (e: Exception) {
-            ResponseEntity.badRequest().build()
-        }
+        return WalletResponseDto(
+            walletId = wallet.walletId,
+            pointsBalance = wallet.pointsBalance,
+            gems = wallet.gems,
+            child = ChildDto(
+                childId = child.childId,
+                name = child.name,
+                avatar = child.avatar,
+                birthday = child.birthday,
+                stats = child.stats
+            )
+        )
     }
 
 //    @PreAuthorize("hasRole('PARENT')")
