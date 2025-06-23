@@ -20,7 +20,6 @@ data class BankCard(
     val expiryYear: Int,
     val cvv: String = (100..999).random().toString(),
     var balance: BigDecimal = BigDecimal.ZERO,
-    val cardDesign: String? = "default.png",
     val isActive: Boolean = true,
 
     @ManyToOne
@@ -29,5 +28,9 @@ data class BankCard(
 
     @ManyToOne
     @JoinColumn(name = "parent_id", nullable = true)
-    val parent: Parent? = null
-)
+    val parent: Parent? = null,
+
+    val isParent: Boolean,
+    val cardDesign: String? = if (isParent == true) "parentcard_1" else "kidcard_1",
+
+    )

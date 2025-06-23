@@ -23,7 +23,8 @@ import java.math.BigDecimal
                 expiryMonth = (1..12).random(),
                 expiryYear = (2026..2030).random(),
                 child = child,
-                parent = child.parent
+                parent = child.parent,
+                isParent = false
             )
 
             return bankCardRepo.save(card)
@@ -35,7 +36,9 @@ import java.math.BigDecimal
             cardHolderName = parent.name,
             expiryMonth = (1..12).random(),
             expiryYear = (2026..2030).random(),
-            parent = parent
+            parent = parent,
+            isParent = true
+
         )
 
         return bankCardRepo.save(card)
