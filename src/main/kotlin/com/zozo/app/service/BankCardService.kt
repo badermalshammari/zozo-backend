@@ -9,26 +9,26 @@ import org.springframework.stereotype.Service
 import java.math.BigDecimal
 
 @Service
-    class BankCardService(
-        private val bankCardRepo: BankCardRepository,
-        private val childRepo: ChildRepository,
-        private val parentRepo: ParentRepository
-    ) {
+class BankCardService(
+    private val bankCardRepo: BankCardRepository,
+    private val childRepo: ChildRepository,
+    private val parentRepo: ParentRepository
+) {
 
-        fun createCardForChild(childId: Long): BankCard {
-            val child = childRepo.findById(childId).orElseThrow { IllegalArgumentException("Child not found") }
+    fun createCardForChild(childId: Long): BankCard {
+        val child = childRepo.findById(childId).orElseThrow { IllegalArgumentException("Child not found") }
 
-            val card = BankCard(
-                cardHolderName = child.name,
-                expiryMonth = (1..12).random(),
-                expiryYear = (2026..2030).random(),
-                child = child,
-                parent = child.parent,
-                isParent = false
-            )
+        val card = BankCard(
+            cardHolderName = child.name,
+            expiryMonth = (1..12).random(),
+            expiryYear = (2026..2030).random(),
+            child = child,
+            parent = child.parent,
+            isParent = false
+        )
 
-            return bankCardRepo.save(card)
-        }
+        return bankCardRepo.save(card)
+    }
     fun createCardForParent(parentId: Long): BankCard {
         val parent = parentRepo.findById(parentId).orElseThrow { IllegalArgumentException("Parent not found") }
 
@@ -43,11 +43,11 @@ import java.math.BigDecimal
 
         return bankCardRepo.save(card)
     }
-     fun topUp(toCardId: Long, amount: BigDecimal): BankCard {
-         val toCard = bankCardRepo.findById(toCardId).orElseThrow()
-         toCard.balance = toCard.balance?.plus(amount)!!
-         return bankCardRepo.save(toCard)
-     }
+    fun topUp(toCardId: Long, amount: BigDecimal): BankCard {
+        val toCard = bankCardRepo.findById(toCardId).orElseThrow()
+        toCard.balance = toCard.balance?.plus(amount)!!
+        return bankCardRepo.save(toCard)
+    }
     fun getParentCard(parentId: Long): List<BankCard> {
         return bankCardRepo.findAllByParent_ParentId(parentId)
     }
@@ -77,4 +77,4 @@ import java.math.BigDecimal
     }
 
 
- }
+}

@@ -25,10 +25,13 @@ class BankCardController(
     }
 
 
-    @PostMapping("/parent/{parentId}")
-    fun createParentCard(@PathVariable parentId: Long): BankCard {
-        val parent = parentRepo.findById(parentId).orElseThrow { IllegalArgumentException("Parent not found") }
-        return service.createCardForParent(parent.parentId)
+    @PostMapping("/parent/{parentId}/new")
+    fun createAdditionalParentCard(@PathVariable parentId: Long): BankCardDto {
+        val parent = parentRepo.findById(parentId)
+            .orElseThrow { IllegalArgumentException("Parent not found") }
+
+        val savedCard = service.createCardForParent(parent.parentId)
+        return service.mapToDto(savedCard)
     }
 
     @PostMapping("/topup")

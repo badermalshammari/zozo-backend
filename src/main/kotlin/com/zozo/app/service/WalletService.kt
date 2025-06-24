@@ -4,16 +4,19 @@ import com.zozo.app.dto.LeaderboardEntry
 import com.zozo.app.model.Wallet
 import com.zozo.app.model.Child
 import com.zozo.app.model.Parent
+import com.zozo.app.repository.BankCardRepository
 import com.zozo.app.repository.WalletRepository
 import com.zozo.app.repository.ChildRepository
 import com.zozo.app.repository.ParentRepository
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 
 @Service
 class WalletService(
     private val walletRepo: WalletRepository,
     private val childRepo: ChildRepository,
-    private val parentRepo: ParentRepository
+    private val parentRepo: ParentRepository,
+    private val bankCardRepo: BankCardRepository,
 ) {
     fun createWalletForChild(childId: Long): Wallet {
         val child = childRepo.findById(childId).orElseThrow {
@@ -47,17 +50,6 @@ class WalletService(
             ?: throw Exception("Wallet not found for this child")
     }
 
-//    fun addToChildBalance(childId: Long, amount: Double, parentUsername: String): Wallet {
-//        val wallet = getWalletIfOwnedByParent(childId, parentUsername)
-//        val amountBD = BigDecimal.valueOf(amount)
-//        wallet.balance = wallet.balance?.add(amountBD)
-//
-//        wallet.card?.let {
-//            it.balance = it.balance?.add(amountBD)
-//        }
-//
-//        return walletRepo.save(wallet)
-//    }
 fun getPointsLeaderboardForParent(parentUsername: String, top: Int): List<LeaderboardEntry> {
     val parent: Parent = parentRepo.findByUsername(parentUsername)
         ?: throw IllegalArgumentException("Parent not found")
@@ -96,9 +88,32 @@ fun getPointsLeaderboardForParent(parentUsername: String, top: Int): List<Leader
     }
 
     fun addGemsToChild(childId: Long, gems: Int, parentUsername: String): Wallet {
-        val wallet = getWalletIfOwnedByParent(childId, parentUsername)
-        val updatedWallet = wallet.copy(gems = wallet.gems + gems)
-        return walletRepo.save(updatedWallet)
+        if (gems <= 0) {
+            throw IllegalArgumentException("Number of gems must be a positive value")
+        }
+
+        val child = getChildIfOwnedByParent(childId, parentUsername)
+
+        val wallet = walletRepo.findByChild(child)
+            ?: throw Exception("Wallet not found for this child")
+
+        val card = bankCardRepo.findByChild_ChildId(childId)
+            ?: throw Exception("Child does not have a bank card")
+
+        val conversionRate = BigDecimal(1000)
+        val requiredBalance = BigDecimal(gems).divide(conversionRate)
+
+        if (card.balance < requiredBalance) {
+            throw IllegalStateException("Not enough balance in card to convert to gems")
+        }
+
+        // Deduct from card, add gems
+        card.balance -= requiredBalance
+        wallet.gems += gems
+
+        // Save updates
+        bankCardRepo.save(card)
+        return walletRepo.save(wallet)
     }
 
     private fun getChildIfOwnedByParent(childId: Long, parentUsername: String): Child {
