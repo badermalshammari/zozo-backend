@@ -72,7 +72,8 @@ class BankCardService(
             cvv = card.cvv,
             balance = card.balance,
             cardDesign = card.cardDesign,
-            isParentCard = card.child == null
+            isParentCard = card.child == null,
+            childId = card.cardId
         )
     }
 

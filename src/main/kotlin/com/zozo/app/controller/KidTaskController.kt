@@ -13,6 +13,7 @@ class KidTaskController(
     private val service: KidTaskService,
     private val taskProgressService: TaskProgressService
 ) {
+
     @GetMapping("/child/{childId}")
     fun getByChild(@PathVariable childId: Long): List<KidTaskDto> {
         return service.getTasksByChildId(childId).map {
@@ -24,6 +25,7 @@ class KidTaskController(
                 points = it.points,
                 gems = it.gems,
                 childName = it.child.name,
+                videoTitle = it.globalVideo?.title
             )
         }
     }
@@ -39,6 +41,7 @@ class KidTaskController(
                 points = it.points,
                 gems = it.gems,
                 childName = it.child.name,
+                videoTitle = it.globalVideo?.title
             )
         }
     }
@@ -54,6 +57,7 @@ class KidTaskController(
             points = task.points,
             gems = task.gems,
             childName = task.child.name,
+            videoTitle = task.globalVideo?.title
         )
     }
 
@@ -68,7 +72,8 @@ class KidTaskController(
             points = task.points,
             gems = task.gems,
             childName = task.child.name,
-            )
+            videoTitle = task.globalVideo?.title
+        )
     }
 
     @PostMapping("/complete")

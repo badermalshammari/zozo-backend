@@ -63,6 +63,8 @@ class WalletController(
     private fun getAuthenticatedUsername(): String? {
         return SecurityContextHolder.getContext().authentication?.name
     }
+
+
     @PreAuthorize("hasRole('PARENT')")
     @PostMapping("/child/{childId}/add-gems")
     fun addGemsToChild(
