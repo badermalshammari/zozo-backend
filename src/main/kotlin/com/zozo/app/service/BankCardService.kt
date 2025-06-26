@@ -73,8 +73,7 @@ class BankCardService(
             balance = card.balance,
             cardDesign = card.cardDesign,
             isParentCard = card.child == null,
-            childId = card.child?.childId        )
+            childId = card.child?.childId,
+            parentId = card.parent?.parentId ?: card.child?.parent?.parentId        )
     }
-
-
 }
