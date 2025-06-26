@@ -15,11 +15,12 @@ class ChildStoreItemController(
         return service.getItemsForChild(childId)
     }
 
-    @PatchMapping("/item/{childStoreItemId}/toggle")
+    @PostMapping("/item/{childStoreItemId}/toggle")
     fun toggleVisibility(@PathVariable childStoreItemId: Long): ChildStoreItem {
         return service.toggleItemVisibility(childStoreItemId)
     }
-    @PatchMapping("/item/{childStoreItemId}/wishlist/toggle")
+
+    @PostMapping("/item/{childStoreItemId}/wishlist/toggle")
     fun toggleWishList(@PathVariable childStoreItemId: Long): ChildStoreItem {
         return service.toggleItemWishList(childStoreItemId)
     }
