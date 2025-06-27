@@ -1,5 +1,6 @@
 package com.zozo.app.service
 
+import com.zozo.app.dto.TransactionDto
 import com.zozo.app.model.Transaction
 import com.zozo.app.repository.BankCardRepository
 import com.zozo.app.repository.TransactionRepository
@@ -48,4 +49,15 @@ class TransactionService(
     fun getAll(): List<Transaction> = transactionRepo.findAll()
 
 
+}
+
+fun Transaction.toDto(): TransactionDto {
+    return TransactionDto(
+        transactionId = this.transactionId,
+        fromCardNumber = this.fromCard?.cardNumber ?: "",
+        toCardNumber = this.toCard?.cardNumber ?: "",
+        amount = this.amount,
+        timestamp = this.timestamp,
+        description = this.description
+    )
 }
