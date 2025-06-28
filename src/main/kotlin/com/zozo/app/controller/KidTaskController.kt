@@ -1,6 +1,7 @@
 package com.zozo.app.controller
 
 import com.zozo.app.dto.KidTaskDto
+import com.zozo.app.dto.TaskProgressDto
 import com.zozo.app.model.TaskProgress
 import com.zozo.app.service.KidTaskService
 import com.zozo.app.service.TaskProgressService
@@ -16,32 +17,46 @@ class KidTaskController(
 
     @GetMapping("/child/{childId}")
     fun getByChild(@PathVariable childId: Long): List<KidTaskDto> {
-        return service.getTasksByChildId(childId).map {
+        val tasks = service.getTasksByChildId(childId)
+        val progressMap = taskProgressService.getByChildId(childId)
+            .associateBy { it.task.taskId }
+
+        return tasks.map { task ->
+            val progress = progressMap[task.taskId]
             KidTaskDto(
-                taskId = it.taskId,
-                title = it.title,
-                description = it.description,
-                type = it.type.name,
-                points = it.points,
-                gems = it.gems,
-                childName = it.child.name,
-                videoTitle = it.globalVideo?.title
+                taskId = task.taskId,
+                title = task.title,
+                description = task.description,
+                type = task.type.name,
+                points = task.points,
+                gems = task.gems,
+                childName = task.child.name,
+                videoTitle = task.globalVideo?.title,
+                status = progress?.status?.name ?: "NOT_STARTED" // ✅ Include task status
             )
         }
     }
 
     @GetMapping("/parent/{parentId}")
     fun getByParent(@PathVariable parentId: Long): List<KidTaskDto> {
-        return service.getTasksByParentId(parentId).map {
+        val tasks = service.getTasksByParentId(parentId)
+        val progressList = tasks.mapNotNull { task ->
+            taskProgressService.getByChildAndTask(task.child.childId, task.taskId)
+        }
+        val progressMap = progressList.associateBy { it.task.taskId }
+
+        return tasks.map { task ->
+            val progress = progressMap[task.taskId]
             KidTaskDto(
-                taskId = it.taskId,
-                title = it.title,
-                description = it.description,
-                type = it.type.name,
-                points = it.points,
-                gems = it.gems,
-                childName = it.child.name,
-                videoTitle = it.globalVideo?.title
+                taskId = task.taskId,
+                title = task.title,
+                description = task.description,
+                type = task.type.name,
+                points = task.points,
+                gems = task.gems,
+                childName = task.child.name,
+                videoTitle = task.globalVideo?.title,
+                status = progress?.status?.name ?: "NOT_STARTED"
             )
         }
     }
@@ -57,13 +72,16 @@ class KidTaskController(
             points = task.points,
             gems = task.gems,
             childName = task.child.name,
-            videoTitle = task.globalVideo?.title
+            videoTitle = task.globalVideo?.title,
+            status = "NOT_STARTED"
         )
     }
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long): KidTaskDto {
         val task = service.getById(id)
+        val progress = taskProgressService.getByChildAndTask(task.child.childId, id)
+
         return KidTaskDto(
             taskId = task.taskId,
             title = task.title,
@@ -72,7 +90,8 @@ class KidTaskController(
             points = task.points,
             gems = task.gems,
             childName = task.child.name,
-            videoTitle = task.globalVideo?.title
+            videoTitle = task.globalVideo?.title,
+            status = progress?.status?.name ?: "NOT_STARTED"
         )
     }
 
@@ -80,8 +99,20 @@ class KidTaskController(
     fun markTaskAsFinished(
         @RequestParam childId: Long,
         @RequestParam taskId: Long
-    ): ResponseEntity<TaskProgress> {
+    ): ResponseEntity<TaskProgressDto> {
         val updated = taskProgressService.completeTask(childId, taskId)
-        return ResponseEntity.ok(updated)
+
+        val dto = TaskProgressDto(
+            taskProgressId = updated.taskProgressId,
+            taskId = updated.task.taskId,
+            childId = updated.child.childId,
+            status = updated.status?.name ?: "UNKNOWN",
+            progressPercentage = updated.progressPercentage,
+            earnedPoints = updated.earnedPoints,
+            earnedGems = updated.earnedGems,
+            completedAt = updated.completedAt?.toString()
+        )
+
+        return ResponseEntity.ok(dto)
     }
 }
