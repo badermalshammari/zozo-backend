@@ -1,6 +1,8 @@
 package com.zozo.app.controller
 
 import com.zozo.app.dto.LeaderboardEntry
+import com.zozo.app.model.OrderedItem
+import com.zozo.app.model.TotalLeaderboardEntry
 import com.zozo.app.service.WalletService
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -10,10 +12,10 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/leaderboard")
 class LeaderboardController(
-    private val walletService: WalletService
-) {
+    private val walletService: WalletService,
 
-    @GetMapping
+) {
+    @GetMapping("/top")
     @PreAuthorize("hasAnyRole('PARENT', 'CHILD')")
     fun getPointsLeaderboard(
         @RequestParam(defaultValue = "10") top: Int
