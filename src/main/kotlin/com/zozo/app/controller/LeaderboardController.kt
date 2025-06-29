@@ -33,4 +33,23 @@ class LeaderboardController(
 
         return ResponseEntity.ok(leaderboard)
     }
+    @GetMapping("/{childId}")
+    @PreAuthorize("hasAnyRole('PARENT', 'CHILD')")
+    fun getChildLeaderboard(
+        @PathVariable childId: Long
+    ): ResponseEntity<List<LeaderboardEntry>> {
+
+        val auth = SecurityContextHolder.getContext().authentication
+        val username = auth.name
+        val role = auth.authorities.first().authority
+
+        val leaderboard = when (role) {
+            "ROLE_PARENT" -> walletService.getPointsLeaderboardForParent(username, 10)
+            "ROLE_CHILD" -> walletService.getPointsLeaderboardForChild(username, 10)
+            else -> throw IllegalAccessException("Unauthorized role")
+        }
+
+        return ResponseEntity.ok(leaderboard)
+
+        }
 }

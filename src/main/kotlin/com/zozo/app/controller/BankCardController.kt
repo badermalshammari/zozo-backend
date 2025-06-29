@@ -1,10 +1,12 @@
 package com.zozo.app.controller
 
 import com.zozo.app.dto.BankCardDto
+import com.zozo.app.dto.CreateParentCardRequest
 import com.zozo.app.model.BankCard
 import com.zozo.app.repository.ChildRepository
 import com.zozo.app.repository.ParentRepository
 import com.zozo.app.service.BankCardService
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.*
@@ -25,13 +27,19 @@ class BankCardController(
     }
 
 
-    @PostMapping("/parent/{parentId}/new")
+    @PostMapping("/parent/{parentId}/new/random")
     fun createAdditionalParentCard(@PathVariable parentId: Long): BankCardDto {
         val parent = parentRepo.findById(parentId)
             .orElseThrow { IllegalArgumentException("Parent not found") }
 
-        val savedCard = service.createCardForParent(parent.parentId)
+        val savedCard = service.createCardForParent(parent.parentId, "parentcard_1")
         return service.mapToDto(savedCard)
+    }
+
+    @PostMapping("/parent/{parentId}/new")
+    fun createCardForParent(@RequestBody request: CreateParentCardRequest): BankCardDto {
+        val card = service.createCardForParent(request.parentId, request.cardDesign)
+        return service.mapToDto(card)
     }
 
     @PostMapping("/topup")
