@@ -15,9 +15,6 @@ data class ChildStoreItem(
     @JoinColumn(name = "global_item_id")
     val globalItem: GlobalStoreItem,
 
-    @JoinColumn(name = "global_item_name")
-    val globalItemName: String? = null,
-
     var isHidden: Boolean = false,
 
 

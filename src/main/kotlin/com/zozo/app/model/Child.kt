@@ -17,7 +17,7 @@ data class Child(
     @Enumerated(EnumType.STRING)
     val gender: GenderType? = GenderType.ZAIN,
 
-    val avatar: String = if (gender == GenderType.ZAINAH) "zainah.png" else "zain.png",
+    val avatar: String = "",
 
     @ManyToOne
     @JoinColumn(name = "parent_id")

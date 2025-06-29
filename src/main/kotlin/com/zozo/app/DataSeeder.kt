@@ -17,71 +17,33 @@ class DataSeeder(
     override fun run(vararg args: String?) {
         if (globalStoreItemRepository.count() == 0L) {
             val items = listOf(
-                GlobalStoreItem(
-                    name = "Puzzle Game",
-                    description = "Enhances logic and problem-solving skills",
-                    age = 6,
-                    costInGems = 100,
-                    type = ItemsTypes.BOYS,
-                    photo = "puzzle.png"
-                ),
-                GlobalStoreItem(
-                    name = "Princess Doll",
-                    description = "A beautiful doll for storytelling fun",
-                    age = 5,
-                    costInGems = 80,
-                    type = ItemsTypes.GIRLS,
-                    photo = "princess_doll.png"
-                ),
-                GlobalStoreItem(
-                    name = "Water Gun",
-                    description = "Summer fun with safe water play",
-                    age = 6,
-                    costInGems = 90,
-                    type = ItemsTypes.GUNS,
-                    photo = "water_gun.png"
-                ),
-                GlobalStoreItem(
-                    name = "Toy Car",
-                    description = "Mini racing car with great speed",
-                    age = 4,
-                    costInGems = 60,
-                    type = ItemsTypes.CARS,
-                    photo = "toy_car.png"
-                ),
-                GlobalStoreItem(
-                    name = "Math Book",
-                    description = "Helps kids learn basic math",
-                    age = 7,
-                    costInGems = 50,
-                    type = ItemsTypes.OTHER,
-                    photo = "math_book.png"
-                ),
-                GlobalStoreItem(
-                    name = "Color Set",
-                    description = "Boosts creativity with drawing tools",
-                    age = 5,
-                    costInGems = 40,
-                    type = ItemsTypes.OTHER,
-                    photo = "color_set.png"
-                ),
-                GlobalStoreItem(
-                    name = "Beach Ball",
-                    description = "Perfect for beach games",
-                    age = 5,
-                    costInGems = 30,
-                    type = ItemsTypes.BEACH,
-                    photo = "beach_ball.png"
-                ),
-                GlobalStoreItem(
-                    name = "Sunglasses",
-                    description = "Cool shades for summer days",
-                    age = 6,
-                    costInGems = 25,
-                    type = ItemsTypes.SUMMER,
-                    photo = "sunglasses.png"
+                GlobalStoreItem(name = "Giraffe Inflatable Pool", description = "Colorful kiddie pool for summer fun", age = 3, costInGems = 6000, type = ItemsTypes.SUMMER, photo = "toy_1"),
+                GlobalStoreItem(name = "Basketball Hoop Set", description = "Shoot hoops indoors or outdoors", age = 6, costInGems = 5500, type = ItemsTypes.OTHER, photo = "toy_2"),
+                GlobalStoreItem(name = "Disney Princess Wardrobe", description = "Unbox magical surprises", age = 5, costInGems = 5000, type = ItemsTypes.GIRLS, photo = "toy_3"),
+                GlobalStoreItem(name = "Magnetic Dartboard", description = "Safe and fun dart throwing", age = 6, costInGems = 3500, type = ItemsTypes.OTHER, photo = "toy_4"),
+                GlobalStoreItem(name = "Electronic Keyboard", description = "Play and learn music", age = 6, costInGems = 50, type = ItemsTypes.OTHER, photo = "toy_5"),
+                GlobalStoreItem(name = "Stitch Slime Kit", description = "Stretchy fun in Stitch design", age = 5, costInGems = 4500, type = ItemsTypes.OTHER, photo = "toy_6"),
+                GlobalStoreItem(name = "Geomag Magnetic Set", description = "Build structures with magnets", age = 5, costInGems = 5500, type = ItemsTypes.OTHER, photo = "toy_7"),
+                GlobalStoreItem(name = "Toy Microphone", description = "Sing your favorite songs", age = 3, costInGems = 3000, type = ItemsTypes.GIRLS, photo = "toy_8"),
+                GlobalStoreItem(name = "Mini Piano Toy", description = "Colorful keys with sounds", age = 3, costInGems = 2500, type = ItemsTypes.OTHER, photo = "toy_9"),
+                GlobalStoreItem(name = "Dino World Book", description = "Adventure book with puzzles", age = 5, costInGems = 4000, type = ItemsTypes.BOYS, photo = "toy_10"),
+                GlobalStoreItem(name = "Bitzee Disney Edition", description = "Collect 30 digital characters", age = 5, costInGems = 6000, type = ItemsTypes.OTHER, photo = "toy_11"),
+                GlobalStoreItem(name = "3D Puzzle Blocks", description = "Solve shapes and challenges", age = 6, costInGems = 5000, type = ItemsTypes.OTHER, photo = "toy_12"),
+                GlobalStoreItem(name = "Inflatable Bouncer", description = "Jump and slide safely", age = 4, costInGems = 7000, type = ItemsTypes.BEACH, photo = "toy_13"),
+                GlobalStoreItem(name = "Eraser Making Kit", description = "Craft your own cute erasers", age = 6, costInGems = 4000, type = ItemsTypes.GIRLS, photo = "toy_14"),
+                GlobalStoreItem(name = "X-Shot Insanity Blaster", description = "Rapid-fire foam blaster", age = 8, costInGems = 6500, type = ItemsTypes.GUNS, photo = "toy_15"),
+                GlobalStoreItem(name = "Bildits Construction Set", description = "Build a mini cottage", age = 7, costInGems = 6000, type = ItemsTypes.OTHER, photo = "toy_16"),
+                GlobalStoreItem(name = "Disney Bitzee Game", description = "Digital pet with surprises", age = 5, costInGems = 5000, type = ItemsTypes.OTHER, photo = "toy_17"),
+                GlobalStoreItem(name = "Playhouse Slide Set", description = "Climb and slide playground", age = 4, costInGems = 7000, type = ItemsTypes.BEACH, photo = "toy_18"),
+                GlobalStoreItem(name = "Arabic Story Game", description = "Interactive learning through play", age = 6, costInGems = 3500, type = ItemsTypes.OTHER, photo = "toy_19"),
+                GlobalStoreItem(name = "Monster RC Truck", description = "All-terrain remote control", age = 7, costInGems = 6500, type = ItemsTypes.CARS, photo = "toy_20"),
+                GlobalStoreItem(name = "Duck Target Gun", description = "Shoot foam balls at the duck", age = 6, costInGems = 4500, type = ItemsTypes.GUNS, photo = "toy_21"),
+                GlobalStoreItem(name = "Outdoor Kitchen Playhouse", description = "Pretend cooking outdoors", age = 4, costInGems = 6000, type = ItemsTypes.OTHER, photo = "toy_22"),
+                GlobalStoreItem(name = "Baby Balance Walker", description = "Push and play safely", age = 2, costInGems = 3500, type = ItemsTypes.OTHER, photo = "toy_23"),
+                GlobalStoreItem(name = "Boxing Arena Set", description = "Duel with battling boxers", age = 6, costInGems = 5000, type = ItemsTypes.BOYS, photo = "toy_24"),
+                GlobalStoreItem(name = "Kids Smartwatch", description = "Tracks time, steps, and fun features", age = 6, costInGems = 6500, type = ItemsTypes.OTHER, photo = "toy_25"),
+                GlobalStoreItem(name = "Eggy Wawa Bath Toy", description = "Water play with lights and music", age = 3, costInGems = 3000, type = ItemsTypes.SUMMER, photo = "toy_26"),
                 )
-            )
             globalStoreItemRepository.saveAll(items)
             println("✅ Sample items successfully seeded.")
         }

@@ -4,6 +4,7 @@ import com.zozo.app.controller.CreateChildRequest
 import com.zozo.app.model.AccountStats
 import com.zozo.app.model.Child
 import com.zozo.app.model.ChildStoreItem
+import com.zozo.app.model.GenderType
 import com.zozo.app.model.Parent
 import com.zozo.app.repository.ChildRepository
 import com.zozo.app.repository.ChildStoreItemRepository
@@ -34,14 +35,11 @@ class ChildService(
             civilId = request.civilId,
             birthday = request.birthday,
             gender = request.gender,
+            avatar = if (request.gender == GenderType.ZAINAH) "zainah.png" else "zain.png",
             parent = parent
         )
 
         val savedChild = childRepo.save(child)
-
-        // ✅ Use savedChild with real generated ID
-        cardService.createCardForChild(savedChild.childId)
-        walletService.createWalletForChild(savedChild.childId)
 
         val globalItems = globalStoreItemRepository.findAll()
         val childStoreItems = globalItems.map { globalItem ->
@@ -49,10 +47,11 @@ class ChildService(
                 child = savedChild,
                 globalItem = globalItem,
                 isHidden = false,
-                globalItemName = globalItem.name,
                 wishList = false
             )
         }
+        cardService.createCardForChild(savedChild.childId)
+        walletService.createWalletForChild(savedChild.childId)
         childStoreItemRepository.saveAll(childStoreItems)
 
         return savedChild
