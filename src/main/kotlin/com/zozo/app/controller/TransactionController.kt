@@ -17,8 +17,8 @@ class TransactionController(
     @PostMapping("/transfer")
     fun transfer(@RequestBody request: TransferRequest): TransactionDto {
         val transaction = transactionService.transfer(
-            fromCardNumber = request.fromCardNumber,
-            toCardNumber = request.toCardNumber,
+            fromAccountNumber = request.fromAccountNumber,
+            toAccountNumber = request.toAccountNumber,
             amount = request.amount,
             description = request.description
         )
@@ -34,8 +34,8 @@ class TransactionController(
 }
 
 data class TransferRequest(
-    val fromCardNumber: String,
-    val toCardNumber: String,
+    val fromAccountNumber: Long,
+    val toAccountNumber: Long,
     val amount: BigDecimal,
-    val description: String?
+    val description: String? = null
 )

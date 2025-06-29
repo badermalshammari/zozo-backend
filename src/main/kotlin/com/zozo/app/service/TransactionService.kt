@@ -14,12 +14,17 @@ class TransactionService(
     private val bankCardRepo: BankCardRepository
 ) {
 
-    fun transfer(fromCardNumber: String, toCardNumber: String, amount: BigDecimal, description: String?): Transaction {
-        val fromCard = bankCardRepo.findByCardNumber(fromCardNumber)
-            ?: throw IllegalArgumentException("From card not found")
+    fun transfer(
+        fromAccountNumber: Long,
+        toAccountNumber: Long,
+        amount: BigDecimal,
+        description: String?
+    ): Transaction {
+        val fromCard = bankCardRepo.findByAccountNumber(fromAccountNumber)
+            ?: throw IllegalArgumentException("From account not found")
 
-        val toCard = bankCardRepo.findByCardNumber(toCardNumber)
-            ?: throw IllegalArgumentException("To card not found")
+        val toCard = bankCardRepo.findByAccountNumber(toAccountNumber)
+            ?: throw IllegalArgumentException("To account not found")
 
         if (amount <= BigDecimal.ZERO) {
             throw IllegalArgumentException("Amount must be positive")
