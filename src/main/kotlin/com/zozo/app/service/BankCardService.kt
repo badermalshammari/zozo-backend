@@ -29,16 +29,18 @@ class BankCardService(
 
         return bankCardRepo.save(card)
     }
-    fun createCardForParent(parentId: Long): BankCard {
-        val parent = parentRepo.findById(parentId).orElseThrow { IllegalArgumentException("Parent not found") }
+    fun createCardForParent(parentId: Long, cardDesign: String): BankCard {
+        val parent = parentRepo.findById(parentId).orElseThrow {
+            IllegalArgumentException("Parent not found")
+        }
 
         val card = BankCard(
             cardHolderName = parent.name,
             expiryMonth = (1..12).random(),
             expiryYear = (2026..2030).random(),
             parent = parent,
-            isParent = true
-
+            isParent = true,
+            cardDesign = cardDesign
         )
 
         return bankCardRepo.save(card)

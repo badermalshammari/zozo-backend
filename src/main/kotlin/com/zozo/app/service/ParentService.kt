@@ -28,7 +28,7 @@ class ParentService(
                 phoneNumber = phoneNumber
             )
         )
-        cardService.createCardForParent(savedParent.parentId)
+        cardService.createCardForParent(savedParent.parentId, "parentcard_1")
 
         return savedParent
     }
