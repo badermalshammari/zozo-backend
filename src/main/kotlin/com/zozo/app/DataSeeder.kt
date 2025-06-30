@@ -44,6 +44,7 @@ class DataSeeder(
                 GlobalStoreItem(name = "Kids Smartwatch", description = "Tracks time, steps, and fun features", age = 6, costInGems = 6500, type = ItemsTypes.OTHER, photo = "toy_25"),
                 GlobalStoreItem(name = "Eggy Wawa Bath Toy", description = "Water play with lights and music", age = 3, costInGems = 3000, type = ItemsTypes.SUMMER, photo = "toy_26"),
                 )
+            globalStoreItemRepository.saveAll(items)
         }
         val educationalContentList = listOf(
             GlobalEducationalContent(
@@ -127,6 +128,7 @@ class DataSeeder(
                 youtubeUrl = "https://www.youtube.com/watch?v=f4WYX9m3FGg"
             )
         )
+        globalEducationalRepository.saveAll(educationalContentList)
 
     }
 
