@@ -16,6 +16,7 @@ data class GlobalEducationalContent(
     val title: String,
     val description: String,
     val videoFilename: String?,
+    val youtubeUrl: String? = null,
     val coverPicture: String? = "default.png",
     val time: Int?
 )

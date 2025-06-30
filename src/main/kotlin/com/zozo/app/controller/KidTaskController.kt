@@ -2,7 +2,6 @@ package com.zozo.app.controller
 
 import com.zozo.app.dto.KidTaskDto
 import com.zozo.app.dto.TaskProgressDto
-import com.zozo.app.model.TaskProgress
 import com.zozo.app.service.KidTaskService
 import com.zozo.app.service.TaskProgressService
 import org.springframework.http.ResponseEntity
@@ -32,7 +31,8 @@ class KidTaskController(
                 gems = task.gems,
                 childName = task.child.name,
                 videoTitle = task.globalVideo?.title,
-                status = progress?.status?.name ?: "NOT_STARTED" // ✅ Include task status
+                youtubeUrl = task.globalVideo?.youtubeUrl, // ✅ Added
+                status = progress?.status?.name ?: "NOT_STARTED"
             )
         }
     }
@@ -56,6 +56,7 @@ class KidTaskController(
                 gems = task.gems,
                 childName = task.child.name,
                 videoTitle = task.globalVideo?.title,
+                youtubeUrl = task.globalVideo?.youtubeUrl, // ✅ Added
                 status = progress?.status?.name ?: "NOT_STARTED"
             )
         }
@@ -73,6 +74,7 @@ class KidTaskController(
             gems = task.gems,
             childName = task.child.name,
             videoTitle = task.globalVideo?.title,
+            youtubeUrl = task.globalVideo?.youtubeUrl, // ✅ Added
             status = "NOT_STARTED"
         )
     }
@@ -91,6 +93,7 @@ class KidTaskController(
             gems = task.gems,
             childName = task.child.name,
             videoTitle = task.globalVideo?.title,
+            youtubeUrl = task.globalVideo?.youtubeUrl, // ✅ Already added
             status = progress?.status?.name ?: "NOT_STARTED"
         )
     }

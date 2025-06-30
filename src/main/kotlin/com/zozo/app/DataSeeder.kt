@@ -52,6 +52,7 @@ class DataSeeder(
                 title = "The Circulatory System",
                 description = "This video allows children to learn in a fun way about the circulatory system.",
                 videoFilename = "circulatory_system.mp4",
+                youtubeUrl = "https://www.youtube.com/watch?v=TmcXm-8H-ks",
                 coverPicture = "default.png",
                 time = 150
             ),
@@ -59,6 +60,7 @@ class DataSeeder(
                 title = "The Reef Cup - Story about Friendship",
                 description = "Video teaching kids about friendship, sportsmanship, loyalty, and sea ecosystems.",
                 videoFilename = "reef_cup.mp4",
+                youtubeUrl = "https://www.youtube.com/watch?v=rtqLwqbw30Q",
                 coverPicture = "default.png",
                 time = 589
             ),
@@ -66,6 +68,7 @@ class DataSeeder(
                 title = "Learn Letter Thaa - Arabic",
                 description = "Let's learn the letter Thaa and words with this letter in an entertaining way.",
                 videoFilename = "learn_thaa_ar.mp4",
+                youtubeUrl = "https://www.youtube.com/watch?v=8hKC6rGMaP8",
                 coverPicture = "default.png",
                 time = 188
             ),
@@ -73,6 +76,7 @@ class DataSeeder(
                 title = "Multiplication & Division - Basic Math",
                 description = "Learn more about multiplications and divisions with fun monster characters.",
                 videoFilename = "multiplication_division.mp4",
+                youtubeUrl = "https://www.youtube.com/watch?v=BNk-yaFguNs",
                 coverPicture = "default.png",
                 time = 240
             ),
@@ -80,6 +84,7 @@ class DataSeeder(
                 title = "Addition & Subtraction - Basic Math",
                 description = "Fun math problems at Monster University with easy examples for kids.",
                 videoFilename = "addition_subtraction.mp4",
+                youtubeUrl = "https://www.youtube.com/watch?v=LIUAnh2b0fA",
                 coverPicture = "default.png",
                 time = 278
             ),
@@ -87,6 +92,7 @@ class DataSeeder(
                 title = "Musical Notation - Notes",
                 description = "Kids learn quarter, eighth, and sixteenth notes with interactive questions.",
                 videoFilename = "musical_notation.mp4",
+                youtubeUrl = "https://www.youtube.com/watch?v=2bJjigIRo4c",
                 coverPicture = "default.png",
                 time = 225
             ),
@@ -94,6 +100,7 @@ class DataSeeder(
                 title = "Learn Surah Al-Qadr",
                 description = "Learn Surah Al-Qadr repeated 10 times in a fun way with Zakaria characters.",
                 videoFilename = "surah_al_qadr.mp4",
+                youtubeUrl = "https://www.youtube.com/watch?v=ctNkoRgFBmg",
                 coverPicture = "default.png",
                 time = 521
             ),
@@ -101,6 +108,7 @@ class DataSeeder(
                 title = "Learn Arabic Numbers 1-20",
                 description = "Learn numbers from 1 to 20 in Arabic with Zakaria and Zeeko.",
                 videoFilename = "arabic_numbers.mp4",
+                youtubeUrl = "https://www.youtube.com/watch?v=2xgyEC9WCA4",
                 coverPicture = "default.png",
                 time = 244
             ),
@@ -108,6 +116,7 @@ class DataSeeder(
                 title = "Learn Colors - English & Arabic",
                 description = "Learn the names of colors in English and Arabic in a fun way.",
                 videoFilename = "colors_en_ar.mp4",
+                youtubeUrl = "https://www.youtube.com/watch?v=IB72L8OXSBs",
                 coverPicture = "default.png",
                 time = 318
             ),
@@ -115,6 +124,7 @@ class DataSeeder(
                 title = "Memory Game - Fruits & Vegetables",
                 description = "Play the memory card game with fruits and vegetables cartoon for kids.",
                 videoFilename = "memory_game_fruits.mp4",
+                youtubeUrl = "https://www.youtube.com/watch?v=f4WYX9m3FGg",
                 coverPicture = "default.png",
                 time = 209
             )
