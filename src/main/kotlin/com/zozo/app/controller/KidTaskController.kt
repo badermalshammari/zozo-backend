@@ -32,7 +32,8 @@ class KidTaskController(
                 gems = task.gems,
                 childName = task.child.name,
                 videoTitle = task.globalVideo?.title,
-                status = progress?.status?.name ?: "NOT_STARTED" // ✅ Include task status
+                youtubeUrl = task.globalVideo?.youtubeUrl, // ✅ added
+                status = progress?.status?.name ?: "NOT_STARTED"
             )
         }
     }
@@ -56,6 +57,7 @@ class KidTaskController(
                 gems = task.gems,
                 childName = task.child.name,
                 videoTitle = task.globalVideo?.title,
+                youtubeUrl = task.globalVideo?.youtubeUrl, // ✅ added
                 status = progress?.status?.name ?: "NOT_STARTED"
             )
         }
@@ -73,6 +75,7 @@ class KidTaskController(
             gems = task.gems,
             childName = task.child.name,
             videoTitle = task.globalVideo?.title,
+            youtubeUrl = task.globalVideo?.youtubeUrl, // ✅ added
             status = "NOT_STARTED"
         )
     }
@@ -91,6 +94,7 @@ class KidTaskController(
             gems = task.gems,
             childName = task.child.name,
             videoTitle = task.globalVideo?.title,
+            youtubeUrl = task.globalVideo?.youtubeUrl, // ✅ added
             status = progress?.status?.name ?: "NOT_STARTED"
         )
     }
