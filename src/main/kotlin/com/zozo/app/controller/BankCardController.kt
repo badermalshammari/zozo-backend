@@ -54,6 +54,13 @@ class BankCardController(
         val cards = service.getParentCard(parentId)
         return cards.map { service.mapToDto(it) }
     }
+
+    @PostMapping("/{cardId}/activation")
+    fun toggleCardActivation(@PathVariable cardId: Long, @RequestParam active: Boolean): BankCardDto{
+        val updatedCard = service.toggleCardActivation(cardId, active)
+        return service.mapToDto(updatedCard)
+    }
+
     @GetMapping("/child/{childId}")
     fun getChildCard(
         @PathVariable childId: Long,

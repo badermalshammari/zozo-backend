@@ -76,6 +76,14 @@ class BankCardService(
             cardDesign = card.cardDesign,
             isParentCard = card.child == null,
             childId = card.child?.childId,
+            isActive =  card.isActive,
             parentId = card.parent?.parentId ?: card.child?.parent?.parentId        )
+    }
+    fun toggleCardActivation(cardId: Long, active: Boolean): BankCard {
+        val card = bankCardRepo.findById(cardId).orElseThrow {
+            IllegalArgumentException("Card not found")
+        }
+        val updatedCard = card.copy(isActive = active)
+        return bankCardRepo.save(updatedCard)
     }
 }

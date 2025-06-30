@@ -15,4 +15,5 @@ data class BankCardDto(
     val isParentCard: Boolean,
     val childId: Long?,
     val parentId: Long?,
+    val isActive: Boolean,
 )

@@ -12,10 +12,10 @@ class TaskProgressController(
     @GetMapping("/child/{childId}")
     fun getByChild(@PathVariable childId: Long): List<TaskProgress> = service.getByChildId(childId)
 
-    @PostMapping
+    @PostMapping("/create")
     fun create(@RequestBody progress: TaskProgress): TaskProgress = service.create(progress)
 
-    @PutMapping
+    @PostMapping("/update")
     fun update(@RequestBody progress: TaskProgress): TaskProgress = service.updateProgress(progress)
 
     @GetMapping("/child/{childId}/task/{taskId}")
