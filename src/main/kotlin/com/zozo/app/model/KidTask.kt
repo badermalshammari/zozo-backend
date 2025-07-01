@@ -26,7 +26,7 @@ data class KidTask(
     val type: TaskType,
 
     val points: Int? = if (type == TaskType.TASK) 50 else if (type == TaskType.QUIZ) 50 else 100,
-    val gems: Int,
+    var gems: Int = 0,
 
     @ManyToOne
     @JoinColumn(name = "educationalcontent_id")

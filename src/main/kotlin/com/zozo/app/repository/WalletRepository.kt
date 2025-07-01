@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface WalletRepository : JpaRepository<Wallet, Long> {
     fun findByChild(child: Child): Wallet?
     fun findAllByChild_Parent_Username(username: String): List<Wallet>
+    fun findByChildChildId(childId: Long): Wallet?
 }
