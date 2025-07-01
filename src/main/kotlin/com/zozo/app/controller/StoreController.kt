@@ -22,10 +22,11 @@ class StoreController(private val storeService: StoreService) {
     @PostMapping("/items/order")
     fun orderItem(
         @RequestParam childId: Long,
-        @RequestParam itemId: Long
+        @RequestParam childStoreItemId: Long
     ): ResponseEntity<OrderedItemDto> {
-        val order = storeService.orderItem(childId, itemId)
+        val order = storeService.orderItem(childId, childStoreItemId)
         return ResponseEntity.ok(order.toDto())
+
     }
 
     @GetMapping("/orders/{childId}")
