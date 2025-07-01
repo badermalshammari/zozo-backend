@@ -1,6 +1,7 @@
 package com.zozo.app.controller
 
 import com.zozo.app.dto.BankCardDto
+import com.zozo.app.dto.CreateKidCardRequest
 import com.zozo.app.dto.CreateParentCardRequest
 import com.zozo.app.model.BankCard
 import com.zozo.app.repository.ChildRepository
@@ -21,9 +22,9 @@ class BankCardController(
 ) {
 
     @PostMapping("/child/{childId}")
-    fun createChildCard(@PathVariable childId: Long): BankCard {
-        val child = childRepo.findById(childId).orElseThrow { IllegalArgumentException("Child not found") }
-        return service.createCardForChild(child.childId)
+    fun createChildCard( @RequestBody request: CreateKidCardRequest): BankCardDto {
+        val card = service.createCardForChild(request.childId, request.cardDesign)
+        return service.mapToDto(card)
     }
 
 

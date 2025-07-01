@@ -15,7 +15,7 @@ class BankCardService(
     private val parentRepo: ParentRepository
 ) {
 
-    fun createCardForChild(childId: Long): BankCard {
+    fun createCardForChild(childId: Long, cardDesign: String): BankCard {
         val child = childRepo.findById(childId).orElseThrow { IllegalArgumentException("Child not found") }
 
         val card = BankCard(
@@ -24,7 +24,8 @@ class BankCardService(
             expiryYear = (2026..2030).random(),
             child = child,
             parent = child.parent,
-            isParent = false
+            isParent = false,
+            cardDesign =  cardDesign
         )
 
         return bankCardRepo.save(card)

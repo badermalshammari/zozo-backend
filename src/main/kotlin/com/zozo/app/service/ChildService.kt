@@ -22,7 +22,7 @@ class ChildService(
     private val cardService: BankCardService
 ) {
 
-    fun createChild(request: CreateChildRequest, parentUsername: String): Child {
+    fun createChild(request: CreateChildRequest, parentUsername: String, cardDesign: String): Child {
         val parent: Parent = parentRepo.findByUsername(parentUsername)
             ?: throw IllegalArgumentException("Parent not found")
 
@@ -50,7 +50,7 @@ class ChildService(
                 wishList = false
             )
         }
-        cardService.createCardForChild(savedChild.childId)
+        cardService.createCardForChild(savedChild.childId, cardDesign)
         walletService.createWalletForChild(savedChild.childId)
         childStoreItemRepository.saveAll(childStoreItems)
 

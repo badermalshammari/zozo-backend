@@ -44,92 +44,94 @@ class DataSeeder(
                 GlobalStoreItem(name = "Kids Smartwatch", description = "Tracks time, steps, and fun features", age = 6, costInGems = 6500, type = ItemsTypes.OTHER, photo = "toy_25"),
                 GlobalStoreItem(name = "Eggy Wawa Bath Toy", description = "Water play with lights and music", age = 3, costInGems = 3000, type = ItemsTypes.SUMMER, photo = "toy_26"),
                 )
-//            globalStoreItemRepository.saveAll(items)
+            globalStoreItemRepository.saveAll(items)
         }
-        val educationalContentList = listOf(
-            GlobalEducationalContent(
-                title = "The Circulatory System",
-                description = "This video allows children to learn in a fun way about the circulatory system.",
-                videoFilename = "circulatory_system.mp4",
-                coverPicture = "default.png",
-                time = 150,
-                youtubeUrl = "https://www.youtube.com/watch?v=TmcXm-8H-ks&list=PLZS3MUjYqjUGwX3lYR7_OKKnSnqfQkqmQ&index=3"
-            ),
-            GlobalEducationalContent(
-                title = "The Reef Cup - Story about Friendship",
-                description = "Video teaching kids about friendship, sportsmanship, loyalty, and sea ecosystems.",
-                videoFilename = "reef_cup.mp4",
-                coverPicture = "default.png",
-                time = 589,
-                youtubeUrl = "https://www.youtube.com/watch?v=rtqLwqbw30Q&list=PLZS3MUjYqjUGwX3lYR7_OKKnSnqfQkqmQ&index=13"
-            ),
-            GlobalEducationalContent(
-                title = "Learn Letter Thaa - Arabic",
-                description = "Let's learn the letter Thaa and words with this letter in an entertaining way.",
-                videoFilename = "learn_thaa_ar.mp4",
-                coverPicture = "default.png",
-                time = 188,
-                youtubeUrl = "https://www.youtube.com/watch?v=8hKC6rGMaP8"
-            ),
-            GlobalEducationalContent(
-                title = "Multiplication & Division - Basic Math",
-                description = "Learn more about multiplications and divisions with fun monster characters.",
-                videoFilename = "multiplication_division.mp4",
-                coverPicture = "default.png",
-                time = 240,
-                youtubeUrl = "https://www.youtube.com/watch?v=BNk-yaFguNs&list=PLZS3MUjYqjUGwX3lYR7_OKKnSnqfQkqmQ&index=21"
-            ),
-            GlobalEducationalContent(
-                title = "Addition & Subtraction - Basic Math",
-                description = "Fun math problems at Monster University with easy examples for kids.",
-                videoFilename = "addition_subtraction.mp4",
-                coverPicture = "default.png",
-                time = 278,
-                youtubeUrl = "https://www.youtube.com/watch?v=LIUAnh2b0fA&list=PLZS3MUjYqjUGwX3lYR7_OKKnSnqfQkqmQ&index=19"
-            ),
-            GlobalEducationalContent(
-                title = "Musical Notation - Notes",
-                description = "Kids learn quarter, eighth, and sixteenth notes with interactive questions.",
-                videoFilename = "musical_notation.mp4",
-                coverPicture = "default.png",
-                time = 225,
-                youtubeUrl = "https://www.youtube.com/watch?v=2bJjigIRo4c&list=PLZS3MUjYqjUGwX3lYR7_OKKnSnqfQkqmQ&index=12"
-            ),
-            GlobalEducationalContent(
-                title = "Learn Surah Al-Qadr",
-                description = "Learn Surah Al-Qadr repeated 10 times in a fun way with Zakaria characters.",
-                videoFilename = "surah_al_qadr.mp4",
-                coverPicture = "default.png",
-                time = 521,
-                youtubeUrl = "https://www.youtube.com/watch?v=ctNkoRgFBmg"
-            ),
-            GlobalEducationalContent(
-                title = "Learn Arabic Numbers 1-20",
-                description = "Learn numbers from 1 to 20 in Arabic with Zakaria and Zeeko.",
-                videoFilename = "arabic_numbers.mp4",
-                coverPicture = "default.png",
-                time = 244,
-                youtubeUrl = "https://www.youtube.com/watch?v=2xgyEC9WCA4"
-            ),
-            GlobalEducationalContent(
-                title = "Learn Colors - English & Arabic",
-                description = "Learn the names of colors in English and Arabic in a fun way.",
-                videoFilename = "colors_en_ar.mp4",
-                coverPicture = "default.png",
-                time = 318,
-                youtubeUrl = "https://www.youtube.com/watch?v=IB72L8OXSBs"
-            ),
-            GlobalEducationalContent(
-                title = "Memory Game - Fruits & Vegetables",
-                description = "Play the memory card game with fruits and vegetables cartoon for kids.",
-                videoFilename = "memory_game_fruits.mp4",
-                coverPicture = "default.png",
-                time = 209,
-                youtubeUrl = "https://www.youtube.com/watch?v=f4WYX9m3FGg"
-            )
-        )
-//        globalEducationalRepository.saveAll(educationalContentList)
+        if (globalEducationalRepository.count() == 0L) {
 
+            val educationalContentList = listOf(
+                GlobalEducationalContent(
+                    title = "The Circulatory System",
+                    description = "This video allows children to learn in a fun way about the circulatory system.",
+                    videoFilename = "circulatory_system.mp4",
+                    coverPicture = "default.png",
+                    time = 150,
+                    youtubeUrl = "https://www.youtube.com/watch?v=TmcXm-8H-ks&list=PLZS3MUjYqjUGwX3lYR7_OKKnSnqfQkqmQ&index=3"
+                ),
+                GlobalEducationalContent(
+                    title = "The Reef Cup - Story about Friendship",
+                    description = "Video teaching kids about friendship, sportsmanship, loyalty, and sea ecosystems.",
+                    videoFilename = "reef_cup.mp4",
+                    coverPicture = "default.png",
+                    time = 589,
+                    youtubeUrl = "https://www.youtube.com/watch?v=rtqLwqbw30Q&list=PLZS3MUjYqjUGwX3lYR7_OKKnSnqfQkqmQ&index=13"
+                ),
+                GlobalEducationalContent(
+                    title = "Learn Letter Thaa - Arabic",
+                    description = "Let's learn the letter Thaa and words with this letter in an entertaining way.",
+                    videoFilename = "learn_thaa_ar.mp4",
+                    coverPicture = "default.png",
+                    time = 188,
+                    youtubeUrl = "https://www.youtube.com/watch?v=8hKC6rGMaP8"
+                ),
+                GlobalEducationalContent(
+                    title = "Multiplication & Division - Basic Math",
+                    description = "Learn more about multiplications and divisions with fun monster characters.",
+                    videoFilename = "multiplication_division.mp4",
+                    coverPicture = "default.png",
+                    time = 240,
+                    youtubeUrl = "https://www.youtube.com/watch?v=BNk-yaFguNs&list=PLZS3MUjYqjUGwX3lYR7_OKKnSnqfQkqmQ&index=21"
+                ),
+                GlobalEducationalContent(
+                    title = "Addition & Subtraction - Basic Math",
+                    description = "Fun math problems at Monster University with easy examples for kids.",
+                    videoFilename = "addition_subtraction.mp4",
+                    coverPicture = "default.png",
+                    time = 278,
+                    youtubeUrl = "https://www.youtube.com/watch?v=LIUAnh2b0fA&list=PLZS3MUjYqjUGwX3lYR7_OKKnSnqfQkqmQ&index=19"
+                ),
+                GlobalEducationalContent(
+                    title = "Musical Notation - Notes",
+                    description = "Kids learn quarter, eighth, and sixteenth notes with interactive questions.",
+                    videoFilename = "musical_notation.mp4",
+                    coverPicture = "default.png",
+                    time = 225,
+                    youtubeUrl = "https://www.youtube.com/watch?v=2bJjigIRo4c&list=PLZS3MUjYqjUGwX3lYR7_OKKnSnqfQkqmQ&index=12"
+                ),
+                GlobalEducationalContent(
+                    title = "Learn Surah Al-Qadr",
+                    description = "Learn Surah Al-Qadr repeated 10 times in a fun way with Zakaria characters.",
+                    videoFilename = "surah_al_qadr.mp4",
+                    coverPicture = "default.png",
+                    time = 521,
+                    youtubeUrl = "https://www.youtube.com/watch?v=ctNkoRgFBmg"
+                ),
+                GlobalEducationalContent(
+                    title = "Learn Arabic Numbers 1-20",
+                    description = "Learn numbers from 1 to 20 in Arabic with Zakaria and Zeeko.",
+                    videoFilename = "arabic_numbers.mp4",
+                    coverPicture = "default.png",
+                    time = 244,
+                    youtubeUrl = "https://www.youtube.com/watch?v=2xgyEC9WCA4"
+                ),
+                GlobalEducationalContent(
+                    title = "Learn Colors - English & Arabic",
+                    description = "Learn the names of colors in English and Arabic in a fun way.",
+                    videoFilename = "colors_en_ar.mp4",
+                    coverPicture = "default.png",
+                    time = 318,
+                    youtubeUrl = "https://www.youtube.com/watch?v=IB72L8OXSBs"
+                ),
+                GlobalEducationalContent(
+                    title = "Memory Game - Fruits & Vegetables",
+                    description = "Play the memory card game with fruits and vegetables cartoon for kids.",
+                    videoFilename = "memory_game_fruits.mp4",
+                    coverPicture = "default.png",
+                    time = 209,
+                    youtubeUrl = "https://www.youtube.com/watch?v=f4WYX9m3FGg"
+                )
+            )
+            globalEducationalRepository.saveAll(educationalContentList)
+        }
     }
 
 }

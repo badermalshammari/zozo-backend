@@ -23,7 +23,10 @@ class ChildController(
         val parentUsername = getAuthenticatedUsername() ?: return ResponseEntity.status(401).build()
 
         return try {
-            val child = childService.createChild(request, parentUsername)
+            val child = childService.createChild(
+                request, parentUsername,
+                cardDesign = request.cardDesign
+            )
             ResponseEntity.ok(child)
         } catch (ex: IllegalArgumentException) {
             ResponseEntity.badRequest().body(null)
@@ -104,5 +107,6 @@ data class CreateChildRequest(
     val name: String,
     val civilId: String,
     val birthday: LocalDate,
-    val gender: GenderType
+    val gender: GenderType,
+    val cardDesign: String
 )
