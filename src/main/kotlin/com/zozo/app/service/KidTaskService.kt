@@ -11,7 +11,8 @@ class KidTaskService(
     private val childRepo: ChildRepository,
     private val educationalContentRepository: GlobalEducationalContentRepository,
     private val quizRepository: QuizRepository,
-    private val taskProgressRepository: TaskProgressRepository
+    private val taskProgressRepository: TaskProgressRepository,
+    private val walletRepository: WalletRepository
 ) {
 
     fun getTasksByChildId(childId: Long): List<KidTask> =
@@ -23,13 +24,22 @@ class KidTaskService(
     fun createTask(request: CreateTaskRequest): KidTask {
         val parent = parentRepo.findById(request.parentId).orElseThrow()
         val child = childRepo.findById(request.childId).orElseThrow()
+        val wallet = walletRepository.findByChildChildId(request.childId)
+            ?: throw IllegalArgumentException("Wallet not found for child ${request.childId}")
+
+        val gemsToUse = request.gems ?: 0
+
+        if (gemsToUse > 0 && wallet.gems < gemsToUse) {
+            throw IllegalArgumentException(
+                "Child ${request.childId} does not have enough gems to receive this task (has ${wallet.gems}, needs $gemsToUse)"
+            )
+        }
 
         // Handle video task content if applicable
         val video = request.educationalContentId?.let {
             educationalContentRepository.findById(it).orElse(null)
         }
 
-        // Use video title/description if it's a VIDEO task
         val finalTitle = if (request.type == TaskType.VIDEO) {
             video?.title ?: throw IllegalArgumentException("Video not found")
         } else {
@@ -49,7 +59,7 @@ class KidTaskService(
             title = finalTitle,
             description = finalDescription,
             type = request.type,
-            gems = request.gems,
+            gems = gemsToUse,
             globalVideo = video
         )
 
@@ -87,7 +97,8 @@ class KidTaskService(
         return savedTask
     }
 
-    fun getById(id: Long): KidTask = kidtaskRepository.findById(id).orElseThrow()
+    fun getById(id: Long): KidTask =
+        kidtaskRepository.findById(id).orElseThrow()
 
     data class CreateTaskRequest(
         val parentId: Long,
@@ -95,7 +106,7 @@ class KidTaskService(
         val title: String,
         val description: String,
         val type: TaskType,
-        val gems: Int,
+        val gems: Int? = null, // ✅ Now optional
         val educationalContentId: Long? = null,
         val quizQuestion: String? = null,
         val optionA: String? = null,
