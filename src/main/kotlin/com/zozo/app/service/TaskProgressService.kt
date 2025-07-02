@@ -2,11 +2,13 @@ package com.zozo.app.service
 
 import com.zozo.app.model.TaskProgress
 import com.zozo.app.model.TaskStatus
+import com.zozo.app.repository.BankCardRepository
 import com.zozo.app.repository.KidTaskRepository
 import com.zozo.app.repository.ParentRepository
 import com.zozo.app.repository.TaskProgressRepository
 import com.zozo.app.repository.WalletRepository
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @Service
@@ -15,6 +17,7 @@ class TaskProgressService(
     private val kidtaskRepository: KidTaskRepository,
     private val parentRepo: ParentRepository,
     private val walletRepo: WalletRepository,
+    private val bankCardRepo: BankCardRepository
 ) {
 
     fun getByChildId(childId: Long): List<TaskProgress> =
@@ -48,12 +51,28 @@ class TaskProgressService(
         val childWallet = walletRepo.findById(childId)
             .orElseThrow { IllegalArgumentException("Wallet not found") }
 
+        val childCard = bankCardRepo.findByChild_ChildId(childId)
+            ?: throw IllegalArgumentException("Bank card not found for child $childId")
+
         val existingProgress = repo.findByChildChildIdAndTaskTaskId(childId, taskId)
             ?: throw IllegalArgumentException("Task progress not found for this child and task.")
+
         if (existingProgress.status == TaskStatus.FINISHED) {
             throw IllegalStateException("Task has already been completed.")
         }
 
+        // ✅ Deduct from card
+        val conversionRate = BigDecimal(1000)
+        val moneyToDeduct = BigDecimal(task.gems) / conversionRate
+
+        if (childCard.balance < moneyToDeduct) {
+            throw IllegalStateException("Insufficient card balance to reward task.")
+        }
+
+        childCard.balance -= moneyToDeduct
+        bankCardRepo.save(childCard)
+
+        // ✅ Update wallet and progress
         existingProgress.status = TaskStatus.FINISHED
         existingProgress.progressPercentage = 100
         existingProgress.completedAt = LocalDateTime.now()
